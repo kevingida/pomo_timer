@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import { Palette } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "../hooks/useThemes";
 import { themes } from "@/features/theme/data";
 
@@ -10,9 +10,28 @@ const ThemeSelector = () => {
 
   const { setTheme, themeName } = useTheme();
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative">
-      <Button onClick={() => setOpen(!open)}>
+    <div ref={containerRef} className="relative">
+      <Button onClick={() => setOpen(!open)} tooltip="Themes">
         <Palette />
       </Button>
       {open && (
@@ -23,6 +42,7 @@ const ThemeSelector = () => {
               onClick={() => setTheme(theme as keyof typeof themes)}
               variant={"primary"}
               active={themeName === theme}
+              size="sm"
             >
               {theme}
             </Button>
