@@ -2,21 +2,22 @@
 
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { formatTime } from "@/utils/formatTime";
-import { useState } from "react";
+import { useEffect } from "react";
 import useDocumentTitle from "./hooks/useDocumentTitle";
 import useTimer from "./hooks/useTimer";
-import { Mode } from "./type";
 import { MODES } from "./constant";
 import TimerTabs from "./components/TimerTabs";
 import TimerControl from "./components/TimerControl";
 import TimerCircle from "./components/TimerCircle";
 import useDialog from "./hooks/useDialog";
 import useTimerActions from "./hooks/useTimerActions";
+import useSound from "./hooks/useSound";
+import usePomodoroCycle from "./hooks/usePomodoroCycle";
 
 const Timer = () => {
-  const [mode, setMode] = useState<Mode>("focus");
+  const { mode, nextMode, resetCycle, changeMode } = usePomodoroCycle();
 
-  const { remaining, status, start, pause, reset } = useTimer({
+  const { remaining, status, isComplete, start, pause, reset } = useTimer({
     duration: MODES[mode].duration,
   });
 
@@ -24,9 +25,11 @@ const Timer = () => {
 
   const { dialog, openDialog, closeDialog } = useDialog();
 
+  const { playChime } = useSound(true);
+
   const { showReset, handleReset, handlePlayPause, handleModeChange } =
     useTimerActions({
-      setMode,
+      changeMode,
       status,
       start,
       pause,
@@ -39,6 +42,16 @@ const Timer = () => {
     remaining,
     status,
   });
+
+  useEffect(() => {
+    if (!isComplete) return;
+    setTimeout(() => {
+      start();
+    }, 1000);
+    playChime(false);
+    nextMode();
+    handleReset();
+  }, [isComplete, playChime, nextMode, handleReset]);
 
   return (
     <div className="flex flex-col items-center gap-4 rounded w-full">

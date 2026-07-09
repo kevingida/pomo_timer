@@ -3,7 +3,7 @@ import { ALERTS } from "../constant";
 import { useState } from "react";
 
 type useTimerActionsProps = {
-  setMode: (mode: Mode) => void;
+  changeMode: (mode: Mode) => void;
   status: string;
   start: () => void;
   pause: () => void;
@@ -11,7 +11,7 @@ type useTimerActionsProps = {
   openDialog: (title: string, description: string, confirm: () => void) => void;
 };
 const useTimerActions = ({
-  setMode,
+  changeMode,
   status,
   start,
   pause,
@@ -21,6 +21,7 @@ const useTimerActions = ({
   const [showReset, setShowReset] = useState<boolean>(false);
 
   const isRunning = status === "running";
+  const isIdle = status === "idle";
 
   const resetTimer = () => {
     reset();
@@ -28,7 +29,11 @@ const useTimerActions = ({
   };
 
   const handleReset = () => {
-    openDialog(ALERTS.reset.title, ALERTS.reset.description, resetTimer);
+    if (!isIdle) {
+      openDialog(ALERTS.reset.title, ALERTS.reset.description, resetTimer);
+      return;
+    }
+    resetTimer();
   };
 
   const handlePlayPause = () => {
@@ -40,19 +45,19 @@ const useTimerActions = ({
     }
   };
 
-  const changeMode = (newMode: Mode) => {
+  const handleChangeMode = (newMode: Mode) => {
     resetTimer();
-    setMode(newMode);
+    changeMode(newMode);
   };
 
   const handleModeChange = (newMode: Mode) => {
     if (status !== "idle") {
       openDialog(ALERTS.stop.title, ALERTS.stop.description, () =>
-        changeMode(newMode),
+        handleChangeMode(newMode),
       );
       return;
     }
-    setMode(newMode);
+    changeMode(newMode);
   };
   return {
     showReset,

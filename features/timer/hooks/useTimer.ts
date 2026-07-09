@@ -15,6 +15,8 @@ const useTimer = ({ duration }: UseTimerProps) => {
     [duration, elapsed],
   );
 
+  const isComplete = remaining === 0;
+
   const start = () => setStatus("running");
   const pause = () => setStatus("paused");
   const reset = () => {
@@ -25,7 +27,17 @@ const useTimer = ({ duration }: UseTimerProps) => {
   // tick
   useEffect(() => {
     if (status !== "running") return;
-    const id = setInterval(() => setElapsed((e) => e + 1), 1000);
+    const id = setInterval(
+      () =>
+        setElapsed((e) => {
+          if (e >= duration * 60 - 1) {
+            setStatus("idle");
+            return duration * 60;
+          }
+          return e + 1;
+        }),
+      1000,
+    );
     return () => clearInterval(id);
   }, [status]);
 
@@ -34,9 +46,9 @@ const useTimer = ({ duration }: UseTimerProps) => {
   }, [duration]);
 
   return {
-    elapsed,
     status,
     remaining,
+    isComplete,
     start,
     pause,
     reset,
