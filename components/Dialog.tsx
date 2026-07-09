@@ -41,7 +41,7 @@ const Dialog = ({ open, onClose, title, children, className }: DialogProps) => {
       {/* Content */}
       <div
         className={clsx(
-          "relative z-10 w-full max-w-md rounded-xl bg-background border-2 border-border-primary p-6 shadow-xl",
+          "relative z-10 w-full max-w-md rounded-xl bg-surface-primary border-2 border-border-primary p-6 shadow-xl",
           className,
         )}
       >
