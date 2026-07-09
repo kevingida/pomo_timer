@@ -12,29 +12,21 @@ const TimerCircle = ({
   children,
 }: TimerCircleProps) => {
   return (
-    <div
-      className="relative w-125 h-125 rounded-full my-6 backdrop-blur-lg bg-conic/decreasing from-[#F8F9FA] via-[#bfbfbf] to-[#1111] animate-spin-slow-reverse"
-      style={{
-        animationPlayState: isRunning ? "running" : "paused",
-      }}
-    >
-      {/* Moon */}
-      {/* Circle */}
-
-      {/* <div
-        className="relative w-125 h-125 rounded-full my-6  backdrop-blur-lg border border-border-primary flex items-center justify-center bg-conic/decreasing from-[#F8F9FA] via-[#bfbfbf] to-[#1111] animate-spin-slow-reverse"
-        style={{ animationPlayState: isRunning ? "running" : "paused" }}
-      > */}
-      {/* Inner Circle */}
-      <div className="absolute h-118 w-118 rounded-full bg-background" />
-
+    <div className="relative w-125 h-125 rounded-full my-6">
+      {/* Moon shaped outer circle*/}
       <div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-spin-slow flex flex-col justify-center items-center gap-14"
+        className="absolute inset-0 rounded-full bg-conic-270 from-gradient-primary via-gradient-secondary to-gradient-tertiary animate-spin-slow-reverse"
         style={{
           animationPlayState: isRunning ? "running" : "paused",
+          WebkitMask:
+            "radial-gradient(farthest-side, transparent calc(100% - 14px), #000 calc(100% - 14px))",
+          mask: "radial-gradient(farthest-side  at 45% 50%, transparent calc(100% - 34px), #000 calc(100% - 7px))",
         }}
-      >
-        <div className="relative text-9xl font-semibold leading-none text-ink">
+      />
+      {/* Circle shaped outer circle*/}
+
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  flex flex-col justify-center items-center gap-14">
+        <div className="text-9xl font-semibold leading-none text-text-primary">
           {formatTime(remaining)}
         </div>
         {children}
