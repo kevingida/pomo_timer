@@ -5,8 +5,6 @@ export const minimalBlack: Theme = {
 
   name: "Minimal Black",
 
-  wallpaper: "",
-
   particles: "none",
 
   music: "",
@@ -14,7 +12,7 @@ export const minimalBlack: Theme = {
   variables: {
     "--background": "#131316",
 
-    "--surface-primary": "#F8F9FA",
+    "--surface-primary": "#131316",
     "--surface-secondary": "",
     "--surface-active": "#495057",
 
@@ -23,5 +21,9 @@ export const minimalBlack: Theme = {
     "--text-primary": "#F8F9FA",
     "--text-secondary": "#ADB5BD",
     "--text-active": "",
+
+    "--gradient-primary": "#f8f9fa",
+    "--gradient-secondary": "#bfbfbf",
+    "--gradient-tertiary": "#1111",
   },
 };
