@@ -1,11 +1,13 @@
 import { bubble } from "./bubble";
-import { forest } from "./forest";
-import { ocean } from "./ocean";
+import { sereneForest } from "./sereneForest";
+import { minimalBlack } from "./minimalBlack";
+import { lakeSideCafe } from "./lakeSideCafe";
 
 export const themes = {
-  bubble,
-  forest,
-  ocean,
+  minimalBlack,
+  sereneForest,
+  lakeSideCafe,
+  // bubble,
 };
 
 export type ThemeName = keyof typeof themes;
