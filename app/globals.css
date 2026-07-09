@@ -11,9 +11,9 @@
   --text-primary: #8b5cf6;
   --text-secondary: #ec4899;
 
-  /* --card: rgba(255, 255, 255, 0.05);
-
-  --ring: linear-gradient(45deg, #8b5cf6, #ec4899); */
+  --gradient-primary: #f8f9fa;
+  --gradient-secondary: #bfbfbf;
+  --gradient-tertiary: #1111;
 }
 
 @theme inline {
@@ -24,7 +24,9 @@
   --color-border-primary: var(--border-primary);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
-  /* --color-card: var(--card); */
+  --color-gradient-primary: var(--gradient-primary);
+  --color-gradient-secondary: var(--gradient-secondary);
+  --color-gradient-tertiary: var(--gradient-tertiary);
 }
 
 @media (prefers-color-scheme: dark) {
