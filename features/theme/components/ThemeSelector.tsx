@@ -35,7 +35,7 @@ const ThemeSelector = () => {
         <Palette />
       </Button>
       {open && (
-        <div className="absolute top-full right-0 mt-2 flex flex-col gap-2 rounded-[10px] bg-black/30 p-2 shadow-lg">
+        <div className="absolute top-full right-0 mt-2 flex flex-col gap-2 rounded-[20px] backdrop-blur-lg bg-transparent p-2 shadow-lg">
           {Object.keys(themes).map((theme) => (
             <Button
               key={theme}
