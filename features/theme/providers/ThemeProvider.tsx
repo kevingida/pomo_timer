@@ -15,7 +15,7 @@ type ThemeContextType = {
 export const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [themeName, setThemeName] = useState<ThemeName>("forest");
+  const [themeName, setThemeName] = useState<ThemeName>("sereneForest");
 
   const theme = useMemo(() => themes[themeName], [themeName]);
 
