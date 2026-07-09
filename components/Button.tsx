@@ -6,6 +6,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: "sm" | "md" | "lg";
   loading?: boolean;
   active?: boolean;
+  tooltip?: string;
 };
 
 const Button = ({
@@ -17,19 +18,20 @@ const Button = ({
   className = "",
   type = "button",
   active = false,
+  tooltip = "",
   ...props
 }: ButtonProps) => {
   const baseClasses =
-    "rounded-[10px] font-semibold cursor-pointer transition-all duration-200  disabled:opacity-50 disabled:cursor-not-allowed";
+    "rounded-full font-semibold cursor-pointer transition-all duration-200  disabled:opacity-50 disabled:cursor-not-allowed group relative";
 
   const variants = {
     primary:
-      "border  border-primary text-text hover:bg-primary focus:ring-primary ",
+      "border border-border-primary bg-surface-primary backdrop-blur-lg text-text-primary hover:bg-surface-primary/50 focus:ring-surface-primary shadow-lg",
     secondary:
-      "bg-secondary text-white hover:bg-secondary-dark focus:ring-secondary",
+      "bg-surface-secondary text-text-secondary hover:bg-surface-secondary-dark focus:ring-surface-secondary",
     danger: "bg-danger text-white hover:bg-danger-dark focus:ring-danger",
     outline:
-      "border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
+      "border border-border-primary text-text-primary hover:bg-surface-primary/50 focus:ring-surface-primary ",
   };
 
   const sizes = {
@@ -38,7 +40,9 @@ const Button = ({
     lg: "px-5 py-3 text-lg",
   };
 
-  const actives = active ? "bg-primary" : "bg-transparent";
+  const actives = active
+    ? "!bg-surface-active text-text-active"
+    : "bg-transparent";
 
   return (
     <button
@@ -54,6 +58,20 @@ const Button = ({
       {...props}
     >
       {loading ? "Loading..." : children}
+      {tooltip && (
+        <span
+          className="absolute left-1/2 top-full mt-2 -translate-x-1/2
+      rounded-md bg-black px-2 py-1
+      text-xs text-white
+      opacity-0 scale-95
+      transition-all duration-200
+      group-hover:opacity-100
+      group-hover:scale-100
+      pointer-events-none"
+        >
+          {tooltip}
+        </span>
+      )}
     </button>
   );
 };
