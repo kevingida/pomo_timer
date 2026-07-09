@@ -41,7 +41,7 @@ const Button = ({
   };
 
   const actives = active
-    ? "!bg-surface-active text-text-active"
+    ? "!bg-surface-active !text-text-active"
     : "bg-transparent";
 
   return (
