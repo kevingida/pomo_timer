@@ -15,6 +15,9 @@
   --gradient-primary: #f8f9fa;
   --gradient-secondary: #bfbfbf;
   --gradient-tertiary: #1111;
+
+  --success: #55a630;
+  --error: #bc4749;
 }
 
 @theme inline {
@@ -29,6 +32,8 @@
   --color-gradient-primary: var(--gradient-primary);
   --color-gradient-secondary: var(--gradient-secondary);
   --color-gradient-tertiary: var(--gradient-tertiary);
+  --color-success: var(--success);
+  --color-error: var(--error);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -68,4 +73,15 @@ body {
 
 .animate-spin-slow-reverse {
   animation: counterRotate 8s linear infinite;
+}
+
+.item-shadow {
+  transform: scale(1.03);
+  backdrop-filter: blur(5px);
+  -webkit-box-shadow:
+    0px 10px 13px -7px #000000,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+  box-shadow:
+    0px 10px 13px -7px #000000,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
 }
