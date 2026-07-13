@@ -14,7 +14,7 @@ import useTimerActions from "./hooks/useTimerActions";
 import useSound from "./hooks/useSound";
 import usePomodoroCycle from "./hooks/usePomodoroCycle";
 
-const Timer = () => {
+const Timer = ({ isTaskOpen }: { isTaskOpen: boolean }) => {
   const { mode, nextMode, resetCycle, changeMode } = usePomodoroCycle();
 
   const { remaining, status, isComplete, start, pause, reset } = useTimer({
@@ -54,7 +54,9 @@ const Timer = () => {
   }, [isComplete, playChime, nextMode, handleReset]);
 
   return (
-    <div className="flex flex-col items-center gap-4 rounded w-full">
+    <div
+      className={`relative z-0 flex flex-col items-center gap-4 rounded w-full p-4 transition-transform duration-300 ease-in-out ${isTaskOpen ? "-translate-x-32" : "translate-x-0"}`}
+    >
       <TimerTabs
         mode={mode}
         status={status}
