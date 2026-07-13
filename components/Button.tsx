@@ -22,7 +22,7 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const baseClasses =
-    "rounded-full font-semibold cursor-pointer transition-all duration-200  disabled:opacity-50 disabled:cursor-not-allowed group relative";
+    "rounded-full font-semibold cursor-pointer transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group relative";
 
   const variants = {
     primary:
@@ -60,7 +60,7 @@ const Button = ({
       {loading ? "Loading..." : children}
       {tooltip && (
         <span
-          className="absolute left-1/2 top-full mt-2 -translate-x-1/2
+          className=" absolute left-1/2 top-full mt-2 -translate-x-1/2
       rounded-md bg-black px-2 py-1
       text-xs text-white
       opacity-0 scale-95
