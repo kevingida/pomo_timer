@@ -6,15 +6,11 @@ const Toast = ({ toast, onClose }: ToastProps) => {
   const config = {
     success: {
       icon: CheckCircle,
-      className: "bg-green-600",
+      className: "bg-success",
     },
     error: {
       icon: AlertCircle,
-      className: "bg-red-600",
-    },
-    warning: {
-      icon: TriangleAlert,
-      className: "bg-yellow-500",
+      className: "bg-error",
     },
     info: {
       icon: Info,
