@@ -2,7 +2,7 @@
 import Button from "@/components/Button";
 import { ListTodo, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
-import { EditorType, Task } from "./type";
+import { EditorType, Task as Tasktype } from "./type";
 import { useToast } from "@/hooks/useToast";
 import TasksList from "./components/TasksList";
 import useTaskEditor from "./hooks/useTaskEditor";
@@ -15,7 +15,7 @@ interface TaskProps {
   isTaskOpen: boolean;
 }
 
-const createInitialTask = (): Task => ({
+const createInitialTask = (): Tasktype => ({
   id: crypto.randomUUID(),
   title: "",
   notes: "",
@@ -25,8 +25,8 @@ const createInitialTask = (): Task => ({
   createdAt: new Date().toISOString(),
 });
 
-const task = ({ toggleTask, isTaskOpen }: TaskProps) => {
-  const [selectedTask, setSelectedTask] = useState<Task>(createInitialTask);
+const Task = ({ toggleTask, isTaskOpen }: TaskProps) => {
+  const [selectedTask, setSelectedTask] = useState<Tasktype>(createInitialTask);
 
   const {
     taskList,
@@ -49,7 +49,7 @@ const task = ({ toggleTask, isTaskOpen }: TaskProps) => {
     element.style.height = `${element.scrollHeight}px`;
   };
 
-  const handleOpenTask = (editorType: EditorType, taskDetail?: Task) => {
+  const handleOpenTask = (editorType: EditorType, taskDetail?: Tasktype) => {
     if (
       editor.status &&
       editor.type === "TaskDetails" &&
@@ -70,7 +70,7 @@ const task = ({ toggleTask, isTaskOpen }: TaskProps) => {
   };
 
   const handleInputChange = (
-    field: keyof Task,
+    field: keyof Tasktype,
     event?: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     value?: number,
   ) => {
@@ -101,13 +101,6 @@ const task = ({ toggleTask, isTaskOpen }: TaskProps) => {
 
     addTask(newTask);
     resetTask();
-    closeEditor();
-  };
-
-  const handleUpdateTask = () => {
-    const updatedTask = validateTask();
-    if (!updatedTask) return;
-    updateTask(updatedTask);
     closeEditor();
   };
 
@@ -154,7 +147,6 @@ const task = ({ toggleTask, isTaskOpen }: TaskProps) => {
             closeEditor={closeEditor}
             handleInputChange={handleInputChange}
             handleAddTask={handleAddTask}
-            handleUpdateTask={handleUpdateTask}
             handleDeleteTask={handleDeleteTask}
             resizeTextarea={resizeTextarea}
           />
@@ -171,4 +163,4 @@ const task = ({ toggleTask, isTaskOpen }: TaskProps) => {
   );
 };
 
-export default task;
+export default Task;
