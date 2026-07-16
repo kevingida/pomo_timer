@@ -42,7 +42,7 @@ const useTimer = ({ duration }: UseTimerProps) => {
   }, [status]);
 
   useEffect(() => {
-    stop();
+    reset();
   }, [duration]);
 
   return {
