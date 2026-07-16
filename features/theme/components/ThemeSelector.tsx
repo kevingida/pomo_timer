@@ -4,6 +4,7 @@ import { Palette } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "../hooks/useThemes";
 import { themes } from "@/features/theme/data";
+import Tooltip from "@/components/Tooltip";
 
 const ThemeSelector = () => {
   const [open, setOpen] = useState(false);
@@ -31,11 +32,13 @@ const ThemeSelector = () => {
 
   return (
     <div ref={containerRef} className="relative">
-      <Button onClick={() => setOpen(!open)} tooltip="Themes">
-        <Palette />
-      </Button>
+      <Tooltip content="Select Theme">
+        <Button onClick={() => setOpen(!open)}>
+          <Palette />
+        </Button>
+      </Tooltip>
       {open && (
-        <div className="absolute top-full right-0 mt-2 flex flex-col gap-2 rounded-[20px] backdrop-blur-lg bg-transparent p-2 shadow-lg">
+        <div className="absolute top-full right-0 mt-2 z-10 flex flex-col gap-2 rounded-[20px] backdrop-blur-lg bg-transparent p-2 shadow-lg">
           {Object.entries(themes).map(([themeKey, theme]) => (
             <Button
               key={themeKey}
