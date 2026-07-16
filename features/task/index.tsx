@@ -1,13 +1,19 @@
 "use client";
 import Button from "@/components/Button";
 import { ListTodo, Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditorType, Task } from "./type";
 import { useToast } from "@/hooks/useToast";
 import TasksList from "./components/TasksList";
-import useTasks from "./hooks/useTasks";
 import useTaskEditor from "./hooks/useTaskEditor";
-import TaskEditor from "./components/TaskEditor";
+import TaskEditor from "./components/Taskeditor";
+import Tooltip from "@/components/Tooltip";
+import useTasks from "./hooks/useTasks";
+
+interface TaskProps {
+  toggleTask: (state?: boolean) => void;
+  isTaskOpen: boolean;
+}
 
 const createInitialTask = (): Task => ({
   id: crypto.randomUUID(),
@@ -19,13 +25,7 @@ const createInitialTask = (): Task => ({
   createdAt: new Date().toISOString(),
 });
 
-const task = ({
-  toggleTask,
-  isTaskOpen,
-}: {
-  toggleTask: (state?: boolean) => void;
-  isTaskOpen: boolean;
-}) => {
+const task = ({ toggleTask, isTaskOpen }: TaskProps) => {
   const [selectedTask, setSelectedTask] = useState<Task>(createInitialTask);
 
   const {
@@ -35,6 +35,7 @@ const task = ({
     updateTask,
     toggleTaskCompletion,
     reorderTasks,
+    setActiveTask,
   } = useTasks();
 
   const { editor, openEditor, closeEditor } = useTaskEditor();
@@ -69,12 +70,13 @@ const task = ({
   };
 
   const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: keyof Task,
+    event?: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    value?: number,
   ) => {
     setSelectedTask({
       ...selectedTask,
-      [field]: event.target.value,
+      [field]: value !== undefined ? value : event?.target.value,
     });
   };
 
@@ -113,11 +115,26 @@ const task = ({
     setSelectedTask(createInitialTask());
   };
 
+  useEffect(() => {
+    const activeTaskId = taskList.find((task) => !task.completed)?.id ?? null;
+    setActiveTask(activeTaskId);
+  }, [taskList, setActiveTask]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      updateTask(selectedTask);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [selectedTask]);
+
   return (
     <div className="relative">
-      <Button onClick={() => toggleTask()} tooltip="Tasks">
-        <ListTodo />
-      </Button>
+      <Tooltip content="Tasks">
+        <Button onClick={() => toggleTask()}>
+          <ListTodo />
+        </Button>
+      </Tooltip>
       {isTaskOpen && (
         <div className="absolute top-full right-0 mt-2 h-[90vh] w-100 flex p-4 flex-col gap-2 rounded-[20px] transition-all duration-500 backdrop-blur-lg bg-transparent shadow-lg">
           <div className="flex flex-row justify-between items-center h-5 mb-4">
