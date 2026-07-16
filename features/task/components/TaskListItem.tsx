@@ -3,6 +3,7 @@ import { EditorType, Task } from "../type";
 import Button from "@/components/Button";
 import { useSortable } from "@dnd-kit/react/sortable";
 import { GripVertical, CircleCheckBig, Circle } from "lucide-react";
+import Tooltip from "@/components/Tooltip";
 
 interface TaskListItemProps {
   task: Task;
@@ -42,6 +43,10 @@ const TaskListItem = ({
           {task.title}
         </span>
       </div>
+      <div className="text-text-primary/50 mr-2">
+        {task.completedPomodoros}/{task.estimatedPomodoros}
+      </div>
+
       <Button
         className="border-none p-0!"
         onClick={(e) => {
@@ -49,39 +54,13 @@ const TaskListItem = ({
           handleCompleteTask(task.id);
         }}
       >
-        {task.completed ? (
-          <div className="relative group">
+        <Tooltip content={task.completed ? "Completed" : "Not completed"}>
+          {task.completed ? (
             <CircleCheckBig className="text-success" />
-            <span
-              className="absolute right-0 top-full mt-2 z-50
-      rounded-md bg-black px-2 py-1
-      text-xs text-white
-      opacity-0 scale-95
-      transition-all duration-200
-      group-hover:opacity-100
-      group-hover:scale-100
-      pointer-events-none"
-            >
-              Completed
-            </span>
-          </div>
-        ) : (
-          <div className="relative">
-            <Circle className="text-error relative" />
-            <span
-              className=" z-50 absolute right-0 top-full mt-2 
-      rounded-md bg-black px-2 py-1
-      text-xs text-white
-      opacity-0 scale-95
-      transition-all duration-200
-      group-hover:opacity-100
-      group-hover:scale-100
-      pointer-events-none text-nowrap"
-            >
-              Not completed
-            </span>
-          </div>
-        )}
+          ) : (
+            <Circle className="text-error" />
+          )}
+        </Tooltip>
       </Button>
     </li>
   );
