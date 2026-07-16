@@ -1,3 +1,5 @@
+import useTasks from "@/features/task/hooks/useTasks";
+
 interface TimerCircleProps {
   isRunning: boolean;
   remaining: number;
@@ -11,6 +13,7 @@ const TimerCircle = ({
   formatTime,
   children,
 }: TimerCircleProps) => {
+  const { activeTask } = useTasks();
   return (
     <div className="relative w-125 h-125 rounded-full my-6">
       {/* Moon shaped outer circle*/}
@@ -26,7 +29,12 @@ const TimerCircle = ({
       {/* Circle shaped outer circle*/}
 
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  flex flex-col justify-center items-center gap-14">
-        <div className="text-9xl font-semibold leading-none text-text-primary">
+        <div className="text-9xl font-semibold leading-none text-text-primary flex flex-col items-center justify-center gap-2 tracking-wide [text-shadow:0_2px_6px_rgba(0,0,0,0.6)]">
+          {activeTask?.title && (
+            <span className="text-lg max-w-90 font-bold leading-none text-nowrap truncate tracking-wide px-4 py-1.5 rounded-full bg-black/35 backdrop-blur-sm shadow-[0_2px_10px_rgba(0,0,0,0.35)] ">
+              {activeTask.title}
+            </span>
+          )}
           {formatTime(remaining)}
         </div>
         {children}
