@@ -13,15 +13,22 @@ import useDialog from "./hooks/useDialog";
 import useTimerActions from "./hooks/useTimerActions";
 import useSound from "./hooks/useSound";
 import usePomodoroCycle from "./hooks/usePomodoroCycle";
+import useTasks from "../task/hooks/useTasks";
 
-const Timer = ({ isTaskOpen }: { isTaskOpen: boolean }) => {
-  const { mode, nextMode, resetCycle, changeMode } = usePomodoroCycle();
+interface TimerProps {
+  isTaskOpen: boolean;
+}
+
+const Timer = ({ isTaskOpen }: TimerProps) => {
+  const { mode, nextMode, changeMode } = usePomodoroCycle();
 
   const { remaining, status, isComplete, start, pause, reset } = useTimer({
     duration: MODES[mode].duration,
   });
 
   const isRunning = status === "running";
+
+  const { activeTaskId, incrementCompletedPomodoros } = useTasks();
 
   const { dialog, openDialog, closeDialog } = useDialog();
 
@@ -45,6 +52,10 @@ const Timer = ({ isTaskOpen }: { isTaskOpen: boolean }) => {
 
   useEffect(() => {
     if (!isComplete) return;
+
+    if (mode === "focus" && activeTaskId) {
+      incrementCompletedPomodoros(activeTaskId);
+    }
     setTimeout(() => {
       start();
     }, 1000);
@@ -55,13 +66,9 @@ const Timer = ({ isTaskOpen }: { isTaskOpen: boolean }) => {
 
   return (
     <div
-      className={`relative z-0 flex flex-col items-center gap-4 rounded w-full p-4 transition-transform duration-300 ease-in-out ${isTaskOpen ? "-translate-x-32" : "translate-x-0"}`}
+      className={`relative h-screen z-0 flex flex-col items-center justify-center gap-4 rounded w-full p-4 transition-transform duration-300 ease-in-out ${isTaskOpen ? "-translate-x-32" : "translate-x-0"}`}
     >
-      <TimerTabs
-        mode={mode}
-        status={status}
-        handleModeChange={handleModeChange}
-      />
+      <TimerTabs mode={mode} handleModeChange={handleModeChange} />
 
       <TimerCircle
         isRunning={isRunning}
