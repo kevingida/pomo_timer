@@ -4,17 +4,10 @@ import { Mode } from "../type";
 
 interface TimerTabsProps {
   mode: Mode;
-  status: string;
-  // openDialog: (title: string, description: string, confirm: () => void) => void;
   handleModeChange: (newMode: Mode) => void;
 }
 
-const TimerTabs = ({
-  mode,
-  status,
-  // openDialog,
-  handleModeChange,
-}: TimerTabsProps) => {
+const TimerTabs = ({ mode, handleModeChange }: TimerTabsProps) => {
   return (
     <div className="flex gap-2 w-1/2 border border-border-primary rounded-full">
       {Object.entries(MODES).map(([key, tab]) => (
