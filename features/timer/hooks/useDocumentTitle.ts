@@ -14,7 +14,7 @@ const useDocumentTitle = ({ remaining, status }: UseDocumentTitleProps) => {
 
     switch (status) {
       case "running":
-        document.title = `🔴 ${time} - Pomodoro Timer`;
+        document.title = `🍅 ${time} - Pomodoro Timer`;
         break;
 
       case "paused":
