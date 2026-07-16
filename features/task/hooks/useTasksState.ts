@@ -4,9 +4,16 @@ import { move } from "@dnd-kit/helpers";
 
 const STORAGE_KEY = "tasks";
 
-const useTasks = () => {
+const useTaskState = () => {
+  const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const [taskList, setTaskList] = useState<Task[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const activeTask = taskList.find((task) => task.id === activeTaskId) ?? null;
+
+  const setActiveTask = (taskId: string | null) => {
+    setActiveTaskId(taskId);
+  };
 
   const addTask = (task: Task) => {
     setTaskList((prev) => [...prev, task]);
@@ -38,6 +45,21 @@ const useTasks = () => {
     );
   };
 
+  const incrementCompletedPomodoros = (taskId: string) => {
+    setTaskList((prev) =>
+      prev.map((task) => {
+        if (task.id !== taskId) return task;
+
+        const completedPomodoros = task.completedPomodoros + 1;
+
+        return {
+          ...task,
+          completedPomodoros,
+        };
+      }),
+    );
+  };
+
   const reorderTasks = (event: Parameters<typeof move>[1]) => {
     setTaskList((prev) => move(prev, event));
   };
@@ -51,16 +73,20 @@ const useTasks = () => {
   useEffect(() => {
     if (!isLoaded) return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(taskList));
-  }, [taskList]);
+  }, [taskList, isLoaded]);
 
   return {
     taskList,
+    activeTask,
+    activeTaskId,
+    setActiveTask,
     addTask,
     deleteTask,
     updateTask,
     toggleTaskCompletion,
     reorderTasks,
+    incrementCompletedPomodoros,
   };
 };
 
-export default useTasks;
+export default useTaskState;
