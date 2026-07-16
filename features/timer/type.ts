@@ -1,3 +1,3 @@
 export type TimerStatus = "idle" | "running" | "paused";
 
-export type Mode = "focus" | "shortBreak" | "longBreak" | "leisure";
+export type Mode = "focus" | "shortBreak" | "longBreak";

@@ -27,7 +27,7 @@ export const MODES: Record<
 > = {
   focus: {
     label: "Focus",
-    duration: 0.2,
+    duration: 0.1,
   },
   shortBreak: {
     label: "Short Break",
@@ -37,10 +37,10 @@ export const MODES: Record<
     label: "Long Break",
     duration: 0.1,
   },
-  leisure: {
-    label: "Leisure",
-    duration: 1,
-  },
+  // leisure: {
+  //   label: "Leisure",
+  //   duration: 1,
+  // },
 };
 
 export const CYCLE = {
