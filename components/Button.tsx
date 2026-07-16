@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import React from "react";
+import Tooltip from "./Tooltip";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger" | "outline";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
   active?: boolean;
-  tooltip?: string;
 };
 
 const Button = ({
@@ -18,7 +18,6 @@ const Button = ({
   className = "",
   type = "button",
   active = false,
-  tooltip = "",
   ...props
 }: ButtonProps) => {
   const baseClasses =
@@ -58,20 +57,6 @@ const Button = ({
       {...props}
     >
       {loading ? "Loading..." : children}
-      {tooltip && (
-        <span
-          className=" absolute left-1/2 top-full mt-2 -translate-x-1/2
-      rounded-md bg-black px-2 py-1
-      text-xs text-white
-      opacity-0 scale-95
-      transition-all duration-200
-      group-hover:opacity-100
-      group-hover:scale-100
-      pointer-events-none"
-        >
-          {tooltip}
-        </span>
-      )}
     </button>
   );
 };
