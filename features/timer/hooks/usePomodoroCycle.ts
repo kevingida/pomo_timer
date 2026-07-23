@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mode } from "../type";
 
-const usePomodoroCycle = () => {
+const usePomodoroCycle = (longBreakInterval: number) => {
   const [mode, setMode] = useState<Mode>("focus");
   const [completedFocus, setCompletedFocus] = useState(0);
 
@@ -11,7 +11,7 @@ const usePomodoroCycle = () => {
 
       setCompletedFocus(completed);
 
-      if (completed % 4 === 0) {
+      if (completed % longBreakInterval === 0) {
         setMode("longBreak");
       } else {
         setMode("shortBreak");
