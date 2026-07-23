@@ -4,12 +4,19 @@ import { useTheme } from "@/features/theme/hooks/useThemes";
 import Timer from "@/features/timer";
 import Task from "@/features/task";
 import { useState } from "react";
+import Settings from "@/features/settings";
 
 export default function Home() {
-  const [isTaskOpen, setIsTaskOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState({
+    type: "",
+    isOpen: false,
+  });
 
-  const toggleTask = (state?: boolean) => {
-    setIsTaskOpen((prev) => state ?? !prev);
+  const toggleDropdown = (type: string) => {
+    setOpenDropdown((prev) => ({
+      type,
+      isOpen: prev.type === type ? !prev.isOpen : true,
+    }));
   };
 
   const { theme } = useTheme();
@@ -24,9 +31,18 @@ export default function Home() {
     >
       <div className="absolute top-4 right-4 z-20 flex flex-row items-center gap-4">
         <ThemeSelector />
-        <Task toggleTask={toggleTask} isTaskOpen={isTaskOpen} />
+        <Task
+          toggleDropdown={toggleDropdown}
+          isTaskOpen={openDropdown.isOpen && openDropdown.type === "task"}
+        />
+        <Settings
+          toggleDropdown={toggleDropdown}
+          isSettingsOpen={
+            openDropdown.isOpen && openDropdown.type === "settings"
+          }
+        />
       </div>
-      <Timer isTaskOpen={isTaskOpen} />
+      <Timer isDropdownOpen={openDropdown.isOpen} />
     </div>
   );
 }
