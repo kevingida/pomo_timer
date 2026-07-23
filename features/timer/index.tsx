@@ -14,16 +14,26 @@ import useTimerActions from "./hooks/useTimerActions";
 import useSound from "./hooks/useSound";
 import usePomodoroCycle from "./hooks/usePomodoroCycle";
 import useTasks from "../task/hooks/useTasks";
+import useSettings from "../settings/hooks/useSettings";
 
 interface TimerProps {
-  isTaskOpen: boolean;
+  isDropdownOpen: boolean;
 }
 
-const Timer = ({ isTaskOpen }: TimerProps) => {
-  const { mode, nextMode, changeMode } = usePomodoroCycle();
+const Timer = ({ isDropdownOpen }: TimerProps) => {
+  const { settings } = useSettings();
+
+  const { mode, nextMode, changeMode } = usePomodoroCycle(
+    settings.longBreakInterval,
+  );
 
   const { remaining, status, isComplete, start, pause, reset } = useTimer({
-    duration: MODES[mode].duration,
+    duration:
+      mode === "focus"
+        ? settings.focusDuration
+        : mode === "shortBreak"
+          ? settings.shortBreakDuration
+          : settings.longBreakDuration,
   });
 
   const isRunning = status === "running";
@@ -66,7 +76,7 @@ const Timer = ({ isTaskOpen }: TimerProps) => {
 
   return (
     <div
-      className={`relative h-screen z-0 flex flex-col items-center justify-center gap-4 rounded w-full p-4 transition-transform duration-300 ease-in-out ${isTaskOpen ? "-translate-x-32" : "translate-x-0"}`}
+      className={`relative h-screen z-0 flex flex-col items-center justify-center gap-4 rounded w-full p-4 transition-transform duration-300 ease-in-out ${isDropdownOpen ? "-translate-x-32" : "translate-x-0"}`}
     >
       <TimerTabs mode={mode} handleModeChange={handleModeChange} />
 
