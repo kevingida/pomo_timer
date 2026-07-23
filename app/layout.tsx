@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/features/theme/providers/ThemeProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
 import { TaskProvider } from "@/features/task/providers/TaskProvider";
+import SettingsProvider from "@/features/settings/providers/SettingsProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,11 +32,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>
-          <TaskProvider>
-            <ToastProvider>{children}</ToastProvider>
-          </TaskProvider>
-        </ThemeProvider>
+        <SettingsProvider>
+          <ThemeProvider>
+            <TaskProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </TaskProvider>
+          </ThemeProvider>
+        </SettingsProvider>
       </body>
     </html>
   );
