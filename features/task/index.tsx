@@ -11,7 +11,7 @@ import Tooltip from "@/components/Tooltip";
 import useTasks from "./hooks/useTasks";
 
 interface TaskProps {
-  toggleTask: (state?: boolean) => void;
+  toggleDropdown: (type: string) => void;
   isTaskOpen: boolean;
 }
 
@@ -25,7 +25,7 @@ const createInitialTask = (): Tasktype => ({
   createdAt: new Date().toISOString(),
 });
 
-const Task = ({ toggleTask, isTaskOpen }: TaskProps) => {
+const Task = ({ toggleDropdown, isTaskOpen }: TaskProps) => {
   const [selectedTask, setSelectedTask] = useState<Tasktype>(createInitialTask);
 
   const {
@@ -124,7 +124,7 @@ const Task = ({ toggleTask, isTaskOpen }: TaskProps) => {
   return (
     <div className="relative">
       <Tooltip content="Tasks">
-        <Button onClick={() => toggleTask()}>
+        <Button onClick={() => toggleDropdown("task")}>
           <ListTodo />
         </Button>
       </Tooltip>
