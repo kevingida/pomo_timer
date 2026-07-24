@@ -8,9 +8,18 @@ export type Settings = {
   soundEnabled: boolean;
 };
 
+export type SettingKey =
+  | "focusDuration"
+  | "shortBreakDuration"
+  | "longBreakDuration"
+  | "longBreakInterval"
+  | "autoStartBreaks"
+  | "autoStartPomodoros"
+  | "soundEnabled";
+
 export type TimerSetting = {
   title: string;
-  settings: keyof Settings;
+  settings: SettingKey;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   min: number;
   max: number;
