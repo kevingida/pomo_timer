@@ -17,7 +17,8 @@ interface SliderProps {
 const Slider = ({ min, max, value, onChange }: SliderProps) => {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const [dragging, setDragging] = useState(false);
-  const pct = ((value - min) / (max - min)) * 100;
+  const clampedValue = Math.min(Math.max(value, min), max);
+  const pct = ((clampedValue - min) / (max - min)) * 100;
 
   const updateFromClientX = useCallback(
     (clientX: number) => {
