@@ -1,6 +1,6 @@
 import { Mode } from "../type";
 import { ALERTS } from "../constant";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type useTimerActionsProps = {
   changeMode: (mode: Mode) => void;
@@ -23,42 +23,49 @@ const useTimerActions = ({
   const isRunning = status === "running";
   const isIdle = status === "idle";
 
-  const resetTimer = () => {
+  const resetTimer = useCallback(() => {
     reset();
     setShowReset(false);
-  };
+  }, [reset]);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     if (!isIdle) {
       openDialog(ALERTS.reset.title, ALERTS.reset.description, resetTimer);
       return;
     }
     resetTimer();
-  };
+  }, [isIdle, openDialog, resetTimer]);
 
-  const handlePlayPause = () => {
+  const handlePlayPause = useCallback(() => {
     setShowReset(true);
     if (isRunning) {
       openDialog(ALERTS.pause.title, ALERTS.pause.description, pause);
     } else {
       start();
     }
-  };
+  }, [isRunning, openDialog, pause, start]);
 
-  const handleChangeMode = (newMode: Mode) => {
-    resetTimer();
-    changeMode(newMode);
-  };
+  const handleChangeMode = useCallback(
+    (newMode: Mode) => {
+      resetTimer();
+      changeMode(newMode);
+    },
+    [resetTimer, changeMode],
+  );
 
-  const handleModeChange = (newMode: Mode) => {
-    if (status !== "idle") {
-      openDialog(ALERTS.stop.title, ALERTS.stop.description, () =>
-        handleChangeMode(newMode),
-      );
-      return;
-    }
-    changeMode(newMode);
-  };
+  const handleModeChange = useCallback(
+    (newMode: Mode) => {
+      if (status !== "idle") {
+        openDialog(ALERTS.stop.title, ALERTS.stop.description, () =>
+          handleChangeMode(newMode),
+        );
+        return;
+      }
+      changeMode(newMode);
+    },
+    [status, openDialog, handleChangeMode, changeMode],
+  );
+
   return {
     showReset,
     handleReset,

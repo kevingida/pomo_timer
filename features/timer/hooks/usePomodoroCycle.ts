@@ -1,36 +1,39 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Mode } from "../type";
 
 const usePomodoroCycle = (longBreakInterval: number) => {
   const [mode, setMode] = useState<Mode>("focus");
   const [completedFocus, setCompletedFocus] = useState(0);
 
-  const nextMode = () => {
-    if (mode === "focus") {
-      const completed = completedFocus + 1;
+  const modeRef = useRef(mode);
+  const completedFocusRef = useRef(completedFocus);
 
+  useEffect(() => {
+    modeRef.current = mode;
+  }, [mode]);
+
+  useEffect(() => {
+    completedFocusRef.current = completedFocus;
+  }, [completedFocus]);
+
+  const nextMode = useCallback(() => {
+    if (modeRef.current === "focus") {
+      const completed = completedFocusRef.current + 1;
       setCompletedFocus(completed);
-
-      if (completed % longBreakInterval === 0) {
-        setMode("longBreak");
-      } else {
-        setMode("shortBreak");
-      }
-
+      setMode(completed % longBreakInterval === 0 ? "longBreak" : "shortBreak");
       return;
     }
-
     setMode("focus");
-  };
+  }, [longBreakInterval]);
 
-  const resetCycle = () => {
+  const resetCycle = useCallback(() => {
     setMode("focus");
     setCompletedFocus(0);
-  };
+  }, []);
 
-  const changeMode = (newMode: Mode) => {
+  const changeMode = useCallback((newMode: Mode) => {
     setMode(newMode);
-  };
+  }, []);
 
   return {
     mode,

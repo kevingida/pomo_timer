@@ -1,11 +1,11 @@
 import { useCallback, useRef } from "react";
 
-const useSound = (sound: boolean) => {
+const useSound = (soundEnabled: boolean = true) => {
   const audioRef = useRef<AudioContext | null>(null);
 
   const playChime = useCallback(
-    (soft: boolean) => {
-      if (!sound) return;
+    (soft: boolean = false) => {
+      if (!soundEnabled) return;
       try {
         if (!audioRef.current) audioRef.current = new window.AudioContext();
         const ctx = audioRef.current;
@@ -27,7 +27,7 @@ const useSound = (sound: boolean) => {
         });
       } catch (e) {}
     },
-    [sound],
+    [soundEnabled],
   );
   return {
     playChime,

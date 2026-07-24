@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export type TimerStatus = "idle" | "running" | "paused";
 
@@ -17,12 +17,12 @@ const useTimer = ({ duration }: UseTimerProps) => {
 
   const isComplete = remaining === 0;
 
-  const start = () => setStatus("running");
-  const pause = () => setStatus("paused");
-  const reset = () => {
+  const start = useCallback(() => setStatus("running"), []);
+  const pause = useCallback(() => setStatus("paused"), []);
+  const reset = useCallback(() => {
     setElapsed(0);
     setStatus("idle");
-  };
+  }, []);
 
   // tick
   useEffect(() => {
@@ -39,7 +39,7 @@ const useTimer = ({ duration }: UseTimerProps) => {
       1000,
     );
     return () => clearInterval(id);
-  }, [status]);
+  }, [status, duration]);
 
   useEffect(() => {
     reset();

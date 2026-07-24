@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Task } from "../type";
 import { move } from "@dnd-kit/helpers";
 
@@ -11,25 +11,25 @@ const useTaskState = () => {
 
   const activeTask = taskList.find((task) => task.id === activeTaskId) ?? null;
 
-  const setActiveTask = (taskId: string | null) => {
+  const setActiveTask = useCallback((taskId: string | null) => {
     setActiveTaskId(taskId);
-  };
+  }, []);
 
-  const addTask = (task: Task) => {
+  const addTask = useCallback((task: Task) => {
     setTaskList((prev) => [...prev, task]);
-  };
+  }, []);
 
-  const deleteTask = (taskId: string) => {
+  const deleteTask = useCallback((taskId: string) => {
     setTaskList((prev) => prev.filter((task) => task.id !== taskId));
-  };
+  }, []);
 
-  const updateTask = (updatedTask: Task) => {
+  const updateTask = useCallback((updatedTask: Task) => {
     setTaskList((prev) =>
       prev.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
     );
-  };
+  }, []);
 
-  const toggleTaskCompletion = (taskId: string) => {
+  const toggleTaskCompletion = useCallback((taskId: string) => {
     setTaskList((prev) =>
       prev.map((task) =>
         task.id === taskId
@@ -43,26 +43,23 @@ const useTaskState = () => {
           : task,
       ),
     );
-  };
+  }, []);
 
-  const incrementCompletedPomodoros = (taskId: string) => {
+  const incrementCompletedPomodoros = useCallback((taskId: string) => {
     setTaskList((prev) =>
       prev.map((task) => {
         if (task.id !== taskId) return task;
-
-        const completedPomodoros = task.completedPomodoros + 1;
-
         return {
           ...task,
-          completedPomodoros,
+          completedPomodoros: task.completedPomodoros + 1,
         };
       }),
     );
-  };
+  }, []);
 
-  const reorderTasks = (event: Parameters<typeof move>[1]) => {
+  const reorderTasks = useCallback((event: Parameters<typeof move>[1]) => {
     setTaskList((prev) => move(prev, event));
-  };
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
