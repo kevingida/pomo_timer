@@ -5,9 +5,9 @@ import { Settings } from "../type";
 const STORAGE_KEY = "settings";
 
 const defaultSettings: Settings = {
-  focusDuration: 25,
-  shortBreakDuration: 5,
-  longBreakDuration: 15,
+  focusDuration: 0.1,
+  shortBreakDuration: 0.1,
+  longBreakDuration: 0.1,
   longBreakInterval: 4,
   autoStartBreaks: true,
   autoStartPomodoros: false,

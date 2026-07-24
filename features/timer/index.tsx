@@ -2,10 +2,9 @@
 
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { formatTime } from "@/utils/formatTime";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useDocumentTitle from "./hooks/useDocumentTitle";
 import useTimer from "./hooks/useTimer";
-import { MODES } from "./constant";
 import TimerTabs from "./components/TimerTabs";
 import TimerControl from "./components/TimerControl";
 import TimerCircle from "./components/TimerCircle";
@@ -42,7 +41,7 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
 
   const { dialog, openDialog, closeDialog } = useDialog();
 
-  const { playChime } = useSound(true);
+  const { playChime } = useSound(settings.soundEnabled);
 
   const { showReset, handleReset, handlePlayPause, handleModeChange } =
     useTimerActions({
@@ -60,19 +59,35 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
     status,
   });
 
+  const modeRef = useRef(mode);
+
+  useEffect(() => {
+    modeRef.current = mode;
+  }, [mode]);
+
   useEffect(() => {
     if (!isComplete) return;
 
-    if (mode === "focus" && activeTaskId) {
+    const currentMode = modeRef.current;
+
+    if (currentMode === "focus" && activeTaskId) {
       incrementCompletedPomodoros(activeTaskId);
     }
-    setTimeout(() => {
-      start();
-    }, 1000);
-    playChime(false);
+
+    const shouldAutoStart =
+      (currentMode === "focus" && settings.autoStartBreaks) ||
+      (currentMode !== "focus" && settings.autoStartPomodoros);
+
     nextMode();
+    playChime();
     handleReset();
-  }, [isComplete, playChime, nextMode, handleReset]);
+
+    if (shouldAutoStart) {
+      setTimeout(() => {
+        start();
+      }, 1000);
+    }
+  }, [isComplete]);
 
   return (
     <div
