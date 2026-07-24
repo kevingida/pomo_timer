@@ -15,10 +15,18 @@ export const bubble: Theme = {
     "--background": "#090C22",
 
     "--surface": "#173B2F",
+    "--surface-primary": "#173B2F",
+    "--surface-secondary": "#1D4738",
+    "--surface-active": "#67D67A",
 
     "--primary": "#67D67A",
 
     "--secondary": "#A7F3D0",
+
+    "--border-primary": "#A7F3D0",
+
+    "--text-primary": "white",
+    "--text-secondary": "#A7F3D0",
 
     "--text": "white",
   },
