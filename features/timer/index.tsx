@@ -14,6 +14,7 @@ import useSound from "./hooks/useSound";
 import usePomodoroCycle from "./hooks/usePomodoroCycle";
 import useTasks from "../task/hooks/useTasks";
 import useSettings from "../settings/hooks/useSettings";
+import useScreenSize from "@/hooks/useScreenSize";
 
 interface TimerProps {
   isDropdownOpen: boolean;
@@ -21,6 +22,8 @@ interface TimerProps {
 
 const Timer = ({ isDropdownOpen }: TimerProps) => {
   const { settings } = useSettings();
+
+  const { lg } = useScreenSize();
 
   const { mode, nextMode, changeMode } = usePomodoroCycle(
     settings.longBreakInterval,
@@ -98,9 +101,12 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
     }
   }, [isComplete]);
 
+  const shouldShift = isDropdownOpen && lg;
+
   return (
     <div
-      className={`relative h-screen z-0 flex flex-col items-center justify-center gap-4 rounded w-full p-4 transition-transform duration-300 ease-in-out ${isDropdownOpen ? "-translate-x-32" : "translate-x-0"}`}
+      className={`relative h-screen flex flex-col items-center justify-center gap-4 rounded w-full p-4 transition-transform duration-300 ease-in-out 
+        ${shouldShift ? "-translate-x-32" : "translate-x-0"}`}
     >
       <TimerTabs mode={mode} handleModeChange={handleModeChange} />
 

@@ -40,14 +40,17 @@ const Dropdown = ({
   }, []);
 
   return (
-    <div ref={ref} className={`relative w-fit min-w-30 ${className}`}>
+    <div
+      ref={ref}
+      className={`relative min-w-[90px] lg:w-fit  lg:min-w-30 ${className}`}
+    >
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center justify-between rounded-xl border border-border-primary bg-white/5 px-4 py-2.5 backdrop-blur-lg transition-all hover:bg-white/10"
+        className="flex w-full items-center justify-between rounded-xl border border-border-primary bg-white/5 px-3 py-1.5 lg:px-4 lg:py-2.5 backdrop-blur-lg transition-all hover:bg-white/10"
         id={id}
       >
-        <div className="flex items-center gap-2 text-text-primary">
+        <div className="flex items-center gap-2 text-text-primary text-sm lg:text-base">
           {selected?.label ?? placeholder}
         </div>
 
@@ -66,9 +69,9 @@ const Dropdown = ({
                 onChange(option.value);
                 setOpen(false);
               }}
-              className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-white/10 "
+              className="flex w-full items-center justify-between px-2 lg:px-4 py-3 text-left transition-colors hover:bg-white/10 "
             >
-              <div className="flex items-center gap-2 text-text-active">
+              <div className="flex items-center gap-2 text-text-active text-sm lg:text-base">
                 {option.label}
               </div>
 

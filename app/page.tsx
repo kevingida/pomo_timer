@@ -30,7 +30,10 @@ export default function Home() {
       }}
     >
       <div className="absolute top-4 right-4 z-20 flex flex-row items-center gap-4">
-        <ThemeSelector />
+        <ThemeSelector
+          toggleDropdown={toggleDropdown}
+          isThemeOpen={openDropdown.isOpen && openDropdown.type === "theme"}
+        />
         <Task
           toggleDropdown={toggleDropdown}
           isTaskOpen={openDropdown.isOpen && openDropdown.type === "task"}

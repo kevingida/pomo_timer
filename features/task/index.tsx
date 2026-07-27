@@ -9,6 +9,7 @@ import useTaskEditor from "./hooks/useTaskEditor";
 import TaskEditor from "./components/Taskeditor";
 import Tooltip from "@/components/Tooltip";
 import useTasks from "./hooks/useTasks";
+import useScreenSize from "@/hooks/useScreenSize";
 
 interface TaskProps {
   toggleDropdown: (type: string) => void;
@@ -41,6 +42,8 @@ const Task = ({ toggleDropdown, isTaskOpen }: TaskProps) => {
   const { editor, openEditor, closeEditor } = useTaskEditor();
 
   const toast = useToast();
+
+  const { sm } = useScreenSize();
 
   const resizeTextarea = (element: HTMLTextAreaElement | null) => {
     if (!element) return;
@@ -122,14 +125,14 @@ const Task = ({ toggleDropdown, isTaskOpen }: TaskProps) => {
   }, [selectedTask]);
 
   return (
-    <div className="relative">
+    <div className={`${sm ? "relative " : ""} w-full`}>
       <Tooltip content="Tasks">
         <Button onClick={() => toggleDropdown("task")}>
           <ListTodo />
         </Button>
       </Tooltip>
       {isTaskOpen && (
-        <div className="absolute top-full right-0 mt-2 h-[90vh] w-100 flex p-4 flex-col gap-2 rounded-[20px] transition-all duration-500 backdrop-blur-lg bg-transparent shadow-lg">
+        <div className="absolute top-full right-0 mt-2 h-[90vh] w-87.5 lg:w-100 flex p-4 flex-col gap-2 rounded-[20px] transition-all duration-500 backdrop-blur-lg bg-transparent shadow-lg">
           <div className="flex flex-row justify-between items-center h-5 mb-4">
             <h2 className="text-lg font-bold text-text-primary">Tasks</h2>
             <Button

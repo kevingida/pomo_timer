@@ -5,11 +5,19 @@ import { useEffect, useRef, useState } from "react";
 import { useTheme } from "../hooks/useThemes";
 import { themes } from "@/features/theme/data";
 import Tooltip from "@/components/Tooltip";
+import useScreenSize from "@/hooks/useScreenSize";
 
-const ThemeSelector = () => {
+interface ThemeSelectorProps {
+  toggleDropdown: (type: string) => void;
+  isThemeOpen: boolean;
+}
+
+const ThemeSelector = ({ toggleDropdown, isThemeOpen }: ThemeSelectorProps) => {
   const [open, setOpen] = useState(false);
 
   const { setTheme, themeName } = useTheme();
+
+  const { sm } = useScreenSize();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -19,7 +27,7 @@ const ThemeSelector = () => {
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
-        setOpen(false);
+        toggleDropdown("theme");
       }
     };
 
@@ -31,13 +39,13 @@ const ThemeSelector = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className={`${sm ? "relative " : ""}`}>
       <Tooltip content="Select Theme">
-        <Button onClick={() => setOpen(!open)}>
+        <Button onClick={() => toggleDropdown("theme")}>
           <Palette />
         </Button>
       </Tooltip>
-      {open && (
+      {isThemeOpen && (
         <div className="absolute top-full right-0 mt-2 z-10 flex flex-col gap-2 rounded-[20px] backdrop-blur-lg bg-transparent p-2 shadow-lg">
           {Object.entries(themes).map(([themeKey, theme]) => (
             <Button

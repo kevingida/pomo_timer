@@ -41,13 +41,13 @@ const Dialog = ({ open, onClose, title, children, className }: DialogProps) => {
       {/* Content */}
       <div
         className={clsx(
-          "relative z-10 w-full max-w-md rounded-xl bg-surface-primary border-2 border-border-primary p-6 shadow-xl",
+          "relative z-10 w-[90%] lg:w-full max-w-md rounded-xl bg-surface-primary border-2 border-border-primary p-6 shadow-xl",
           className,
         )}
       >
         {title && (
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold">{title}</h2>
+            <h2 className="text-md lg:text-lg font-semibold">{title}</h2>
 
             <button
               onClick={onClose}

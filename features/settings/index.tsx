@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Timer from "./components/Timer";
 import Themes from "./components/Themes";
 import Sounds from "./components/Sounds";
+import useScreenSize from "@/hooks/useScreenSize";
 
 interface SettingsProps {
   toggleDropdown: (type: string) => void;
@@ -14,6 +15,8 @@ interface SettingsProps {
 
 const Settings = ({ toggleDropdown, isSettingsOpen }: SettingsProps) => {
   const [tab, setTab] = useState("timer");
+
+  const { sm } = useScreenSize();
 
   const renderTabContent = () => {
     switch (tab) {
@@ -49,14 +52,14 @@ const Settings = ({ toggleDropdown, isSettingsOpen }: SettingsProps) => {
   }, [isSettingsOpen, toggleDropdown]);
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className={`${sm ? "relative " : ""}`}>
       <Tooltip content="Settings">
         <Button onClick={() => toggleDropdown("settings")}>
           <SettingsIcon />
         </Button>
       </Tooltip>
       {isSettingsOpen && (
-        <div className="absolute top-full right-0 mt-2 w-100 flex p-4 flex-col gap-2 rounded-[20px] transition-all duration-500 backdrop-blur-lg bg-transparent shadow-lg overflow-visible">
+        <div className="absolute top-full right-0 mt-2 w-87.5 lg:w-100 flex p-4 flex-col gap-2 rounded-[20px] transition-all duration-500 backdrop-blur-lg bg-transparent shadow-lg overflow-visible">
           <div className="flex flex-row justify-between items-center h-5 mb-4">
             <h2 className="text-lg font-bold text-text-primary">Settings</h2>
           </div>
