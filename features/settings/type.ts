@@ -6,7 +6,12 @@ export type Settings = {
   autoStartBreaks: boolean;
   autoStartPomodoros: boolean;
   soundEnabled: boolean;
+  focusEndSound: SoundOption;
+  breakEndSound: SoundOption;
+  volume: number;
 };
+
+export type SoundOption = "chime" | "bell" | "tick";
 
 export type SettingKey =
   | "focusDuration"

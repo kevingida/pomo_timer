@@ -12,6 +12,9 @@ const defaultSettings: Settings = {
   autoStartBreaks: true,
   autoStartPomodoros: false,
   soundEnabled: true,
+  volume: 1.0,
+  focusEndSound: "chime",
+  breakEndSound: "chime",
 };
 
 type SettingsContextType = {
