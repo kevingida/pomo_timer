@@ -1,9 +1,17 @@
 import Slider from "@/components/Slider";
-import { CirclePlay, Clock, Minus, Plus, Repeat } from "lucide-react";
+import {
+  Armchair,
+  Brain,
+  Clock,
+  Minus,
+  Plus,
+  Repeat,
+  Sofa,
+} from "lucide-react";
 import useSettings from "../hooks/useSettings";
 import { TIMER_SETTINGS } from "../constant";
 import { useState } from "react";
-import { SettingKey, TimerSetting } from "../type";
+import { SettingKey } from "../type";
 import Button from "@/components/Button";
 import NumberInput from "@/components/NumberInput";
 import Switch from "@/components/Switch";
@@ -27,27 +35,6 @@ const Timer = () => {
     autoStartBreaks: settings.autoStartBreaks,
     autoStartPomodoros: settings.autoStartPomodoros,
   });
-
-  // const commit = (raw: string, item: TimerSetting) => {
-  //   const value =
-  //     raw === ""
-  //       ? item.min
-  //       : Math.min(Math.max(Number(raw), item.min), item.max);
-  //   updateSettings({ [item.settings]: value });
-  //   setLocalValues((prev) => ({
-  //     ...prev,
-  //     [item.settings]: value,
-  //   }));
-  // };
-
-  // const commitLongBreakInterval = (raw: string) => {
-  //   const value = raw === "" ? 1 : Math.min(Math.max(Number(raw), 1), 10);
-  //   updateSettings({ longBreakInterval: value });
-  //   setLocalValues((prev) => ({
-  //     ...prev,
-  //     longBreakInterval: value,
-  //   }));
-  // };
 
   const updateLocalValue = (key: SettingKey, value: number | boolean) => {
     setLocalValues((prev) => ({
@@ -81,7 +68,7 @@ const Timer = () => {
       <h2 className="text-sm font-bold text-text-primary flex items-center gap-2 mb-4">
         <Clock className="w-5 h-5" /> Timer Settings
       </h2>
-      <div className="flex flex-col gap-8 w-full">
+      <div className="flex flex-col gap-5 w-full">
         {TIMER_SETTINGS.map((item, index) => (
           <div key={index} className="flex flex-col w-full">
             <div className="flex flex-row gap-4 mt-2 justify-center items-center">
@@ -184,7 +171,7 @@ const Timer = () => {
         <div className="flex flex-row justify-between gap-4 mt-2 w-full items-center">
           <div className="flex flex-row gap-4 items-center">
             <div className="flex w-fit h-fit p-2 rounded-full bg-white/5 items-center justify-center">
-              <CirclePlay className="w-6 h-6 text-text-primary" />
+              <Brain className="w-6 h-6 text-text-primary" />
             </div>
             <label
               className="text-sm font-semibold text-text-primary"
@@ -203,7 +190,7 @@ const Timer = () => {
         <div className="flex flex-row justify-between gap-4 mt-2 w-full items-center">
           <div className="flex flex-row gap-4 items-center">
             <div className="flex w-fit h-fit p-2 rounded-full bg-white/5 items-center justify-center">
-              <CirclePlay className="w-6 h-6 text-text-primary" />
+              <Armchair className="w-6 h-6 text-text-primary" />
             </div>
             <label
               className="text-sm font-semibold text-text-primary"

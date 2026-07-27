@@ -41,7 +41,7 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
 
   const { dialog, openDialog, closeDialog } = useDialog();
 
-  const { playChime } = useSound(settings.soundEnabled);
+  const { handlePlaySound } = useSound(settings.soundEnabled, settings.volume);
 
   const { showReset, handleReset, handlePlayPause, handleModeChange } =
     useTimerActions({
@@ -61,6 +61,15 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
 
   const modeRef = useRef(mode);
 
+  const handleSoundPlay = (mode: "focus" | "shortBreak" | "longBreak") => {
+    if (!settings.soundEnabled) return;
+    if (mode === "focus") {
+      handlePlaySound(settings.focusEndSound);
+    } else {
+      handlePlaySound(settings.breakEndSound);
+    }
+  };
+
   useEffect(() => {
     modeRef.current = mode;
   }, [mode]);
@@ -79,7 +88,7 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
       (currentMode !== "focus" && settings.autoStartPomodoros);
 
     nextMode();
-    playChime();
+    handleSoundPlay(currentMode);
     handleReset();
 
     if (shouldAutoStart) {
