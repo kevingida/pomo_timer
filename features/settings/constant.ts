@@ -1,11 +1,11 @@
-import { Clock, Coffee, Sofa } from "lucide-react";
+import { Bell, Coffee, Sofa } from "lucide-react";
 import { TimerSetting } from "./type";
 
 export const TIMER_SETTINGS: TimerSetting[] = [
   {
     title: "Focus",
     settings: "focusDuration",
-    icon: Clock,
+    icon: Bell,
     min: 5,
     max: 120,
     unit: "min",
