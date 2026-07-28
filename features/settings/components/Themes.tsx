@@ -1,12 +1,16 @@
+import Button from "@/components/Button";
 import { Brush } from "lucide-react";
 import React from "react";
 
 const Themes = () => {
   return (
-    <div>
+    <div className="flex flex-row justify-between gap-4 w-full">
       <h2 className="text-sm font-bold text-text-primary flex items-center gap-2 mb-4">
         <Brush className="w-5 h-5" /> Theme Settings
       </h2>
+      <Button disabled size="sm">
+        Soon
+      </Button>
       {/* <div className="flex flex-col gap-6 w-full">
         {TIMER_SETTINGS.map((item, index) => (
           <div key={index} className="flex flex-col w-full">

@@ -66,8 +66,8 @@ const Settings = ({ toggleDropdown, isSettingsOpen }: SettingsProps) => {
           <div className="flex gap-2 w-full border border-border-primary rounded-full mb-4">
             {[
               { id: "timer", label: "Timer" },
-              { id: "theme", label: "Theme" },
               { id: "sounds", label: "Sounds" },
+              { id: "theme", label: "Theme" },
             ].map(({ id, label }) => (
               <Button
                 key={id}
