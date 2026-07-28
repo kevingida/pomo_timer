@@ -105,8 +105,8 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
 
   return (
     <div
-      className={`relative h-screen flex flex-col items-center justify-center gap-4 rounded w-full p-4 transition-transform duration-300 ease-in-out 
-        ${shouldShift ? "-translate-x-32" : "translate-x-0"}`}
+      className={`relative min-h-screen flex flex-col items-center justify-center gap-4 rounded w-full p-4 overflow-y-auto transition-transform duration-300 ease-in-out
+    ${shouldShift ? "-translate-x-32" : "translate-x-0"}`}
     >
       <TimerTabs mode={mode} handleModeChange={handleModeChange} />
 
