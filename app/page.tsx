@@ -45,7 +45,9 @@ export default function Home() {
           }
         />
       </div>
-      <Timer isDropdownOpen={openDropdown.isOpen} />
+      <Timer
+        isDropdownOpen={openDropdown.isOpen && openDropdown.type !== "theme"}
+      />
     </div>
   );
 }

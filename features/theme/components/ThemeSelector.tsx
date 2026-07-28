@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import { Palette } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useTheme } from "../hooks/useThemes";
 import { themes } from "@/features/theme/data";
 import Tooltip from "@/components/Tooltip";
@@ -13,8 +13,6 @@ interface ThemeSelectorProps {
 }
 
 const ThemeSelector = ({ toggleDropdown, isThemeOpen }: ThemeSelectorProps) => {
-  const [open, setOpen] = useState(false);
-
   const { setTheme, themeName } = useTheme();
 
   const { sm } = useScreenSize();
@@ -22,6 +20,7 @@ const ThemeSelector = ({ toggleDropdown, isThemeOpen }: ThemeSelectorProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!isThemeOpen) return; // only listen while open
     const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
