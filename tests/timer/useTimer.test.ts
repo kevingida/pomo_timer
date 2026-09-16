@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import useTimer from './useTimer'
+import useTimer from '@/features/timer/hooks/useTimer'
 
 describe('useTimer', () => {
   describe('initialization', () => {

@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import usePomodoroCycle from './usePomodoroCycle'
+import usePomodoroCycle from '@/features/timer/hooks/usePomodoroCycle'
 
 describe('usePomodoroCycle', () => {
   describe('initialization', () => {
