@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/features/theme/providers/ThemeProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
 import { TaskProvider } from "@/features/task/providers/TaskProvider";
 import SettingsProvider from "@/features/settings/providers/SettingsProvider";
+import { ParticleProvider } from "@/features/theme/context/ParticleContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,9 +35,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <SettingsProvider>
           <ThemeProvider>
-            <TaskProvider>
-              <ToastProvider>{children}</ToastProvider>
-            </TaskProvider>
+            <ParticleProvider>
+              <TaskProvider>
+                <ToastProvider>{children}</ToastProvider>
+              </TaskProvider>
+            </ParticleProvider>
           </ThemeProvider>
         </SettingsProvider>
       </body>
