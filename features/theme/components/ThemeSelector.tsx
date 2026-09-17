@@ -22,11 +22,16 @@ const ThemeSelector = ({ toggleDropdown, isThemeOpen }: ThemeSelectorProps) => {
   useEffect(() => {
     if (!isThemeOpen) return; // only listen while open
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
       if (
         containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
+        !containerRef.current.contains(target)
       ) {
-        toggleDropdown("theme");
+        // Check if click is on another dropdown button, if so, let them handle it
+        const clickedElement = event.target as HTMLElement;
+        if (!clickedElement.closest('button[class*="group"]')) {
+          toggleDropdown("theme");
+        }
       }
     };
 
@@ -35,7 +40,7 @@ const ThemeSelector = ({ toggleDropdown, isThemeOpen }: ThemeSelectorProps) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isThemeOpen, toggleDropdown]);
 
   return (
     <div ref={containerRef} className={`${sm ? "relative " : ""}`}>
@@ -45,7 +50,7 @@ const ThemeSelector = ({ toggleDropdown, isThemeOpen }: ThemeSelectorProps) => {
         </Button>
       </Tooltip>
       {isThemeOpen && (
-        <div className="absolute top-full right-0 mt-2 z-10 flex flex-col gap-2 rounded-[20px] backdrop-blur-lg bg-transparent p-2 shadow-lg">
+        <div className="absolute top-full right-0 mt-2 z-50 flex flex-col gap-2 rounded-[20px] backdrop-blur-lg bg-transparent p-2 shadow-lg">
           {Object.entries(themes).map(([themeKey, theme]) => (
             <Button
               key={themeKey}

@@ -1,5 +1,4 @@
 "use client";
-import ThemeSelector from "@/features/theme/components/ThemeSelector";
 import { useTheme } from "@/features/theme/hooks/useThemes";
 import Timer from "@/features/timer";
 import Task from "@/features/task";
@@ -15,6 +14,7 @@ export default function Home() {
   });
 
   const toggleDropdown = (type: string) => {
+    console.log(type, "toggleDropdown");
     setOpenDropdown((prev) => ({
       type,
       isOpen: prev.type === type ? !prev.isOpen : true,
@@ -33,12 +33,12 @@ export default function Home() {
           : `url(${theme.wallpaper}) center / cover no-repeat`,
       }}
     >
-      <Particles type={particleType} opacity={particleOpacity} speed={particleSpeed} />
+      <Particles
+        type={particleType}
+        opacity={particleOpacity}
+        speed={particleSpeed}
+      />
       <div className="absolute top-4 right-4 z-20 flex flex-row items-center gap-4">
-        <ThemeSelector
-          toggleDropdown={toggleDropdown}
-          isThemeOpen={openDropdown.isOpen && openDropdown.type === "theme"}
-        />
         <Task
           toggleDropdown={toggleDropdown}
           isTaskOpen={openDropdown.isOpen && openDropdown.type === "task"}

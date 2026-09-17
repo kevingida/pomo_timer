@@ -14,13 +14,13 @@ const ThemeSettings = () => {
         <ParticleControls />
       </div>
 
-      <div className="border-t border-border-primary pt-4 space-y-4">
+      {/* <div className="border-t border-border-primary pt-4 space-y-4">
         <WallpaperControls />
       </div>
 
       <div className="border-t border-border-primary pt-4 space-y-4">
         <AccessibilitySettings />
-      </div>
+      </div> */}
     </div>
   );
 };

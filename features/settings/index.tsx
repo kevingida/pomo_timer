@@ -36,11 +36,16 @@ const Settings = ({ toggleDropdown, isSettingsOpen }: SettingsProps) => {
   useEffect(() => {
     if (!isSettingsOpen) return; // only listen while open
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
       if (
         containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
+        !containerRef.current.contains(target)
       ) {
-        toggleDropdown("settings");
+        // Check if click is on another dropdown button, if so, let them handle it
+        const clickedElement = event.target as HTMLElement;
+        if (!clickedElement.closest('button[class*="group"]')) {
+          toggleDropdown("settings");
+        }
       }
     };
 
@@ -59,7 +64,7 @@ const Settings = ({ toggleDropdown, isSettingsOpen }: SettingsProps) => {
         </Button>
       </Tooltip>
       {isSettingsOpen && (
-        <div className="absolute top-full right-0 mt-2 w-87.5 lg:w-100 flex flex-col gap-2 rounded-[20px] transition-all duration-500 backdrop-blur-lg bg-transparent p-4 shadow-lg overflow-hidden max-h-[90vh]">
+        <div className="absolute top-full right-0 mt-2 w-87.5 lg:w-100 flex flex-col gap-2 rounded-[20px] transition-all duration-500 backdrop-blur-lg bg-transparent p-4 shadow-lg overflow-hidden max-h-[90vh] z-50">
           <div className=" shrink-0">
             <div className="flex flex-row justify-between items-center h-5 mb-4">
               <h2 className="text-lg font-bold text-text-primary">Settings</h2>

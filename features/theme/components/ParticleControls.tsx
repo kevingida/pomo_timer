@@ -1,9 +1,20 @@
+import NumberInput from "@/components/NumberInput";
+import Slider from "@/components/Slider";
 import { useParticleControl } from "../hooks/useParticleControl";
 import { Sparkles } from "lucide-react";
+import Button from "@/components/Button";
 
 const ParticleControls = () => {
-  const { particleType, setParticleType, particleOpacity, setParticleOpacity, particleSpeed, setParticleSpeed } = useParticleControl();
-  const particleTypes: Array<"stars" | "rain" | "snow" | "fireflies" | "none"> = ["none", "stars", "rain", "snow", "fireflies"];
+  const {
+    particleType,
+    setParticleType,
+    particleOpacity,
+    setParticleOpacity,
+    particleSpeed,
+    setParticleSpeed,
+  } = useParticleControl();
+  const particleTypes: Array<"stars" | "rain" | "snow" | "fireflies" | "none"> =
+    ["none", "stars", "rain", "snow", "fireflies"];
 
   return (
     <div className="space-y-4">
@@ -13,56 +24,67 @@ const ParticleControls = () => {
 
       <div className="space-y-3">
         <div>
-          <label className="text-sm text-text-secondary block mb-2">Effect Type</label>
+          <label className="text-sm text-text-secondary block mb-2">
+            Effect Type
+          </label>
           <div className="flex flex-wrap gap-2">
             {particleTypes.map((type) => (
-              <button
+              <Button
                 key={type}
+                variant="primary"
+                active={particleType === type}
                 onClick={() => setParticleType(type)}
-                className={`py-2 px-3 rounded text-xs font-medium transition-colors ${
-                  particleType === type
-                    ? "bg-primary text-white"
-                    : "bg-surface-secondary text-text-secondary hover:bg-surface-active"
-                }`}
+                size="sm"
+                className="py-2 px-3 rounded text-xs font-medium transition-colors hover:bg-surface-active"
               >
                 {type.charAt(0).toUpperCase() + type.slice(1)}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
 
         {particleType !== "none" && (
           <>
-            <div>
-              <label className="text-sm text-text-secondary block mb-2">
-                Opacity: {particleOpacity}%
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="100"
+            <div className="flex flex-col gap-1 w-full">
+              <div className="flex flex-row gap-2 items-center justify-between w-full">
+                <span className="text-sm font-semibold text-text-primary">
+                  Opacity
+                </span>
+                <NumberInput
+                  value={particleOpacity}
+                  min={0}
+                  max={100}
+                  unit="%"
+                  onChange={(value) => setParticleOpacity(value)}
+                  onCommit={(value) => setParticleOpacity(value)}
+                />
+              </div>
+              <Slider
+                min={0}
+                max={100}
                 value={particleOpacity}
-                onChange={(e) => setParticleOpacity(Number(e.target.value))}
-                className="w-full h-2 bg-surface-secondary rounded-lg appearance-none cursor-pointer"
-                aria-label="Particle opacity"
+                onChange={(value) => setParticleOpacity(value)}
               />
             </div>
 
             <div>
-              <label className="text-sm text-text-secondary block mb-2">Speed</label>
+              <label className="text-sm text-text-secondary block mb-2">
+                Speed
+              </label>
               <div className="flex gap-2">
                 {["slow", "medium", "fast"].map((speed) => (
-                  <button
+                  <Button
                     key={speed}
-                    onClick={() => setParticleSpeed(speed as "slow" | "medium" | "fast")}
-                    className={`flex-1 py-2 px-3 rounded text-xs font-medium transition-colors ${
-                      particleSpeed === speed
-                        ? "bg-primary text-white"
-                        : "bg-surface-secondary text-text-secondary hover:bg-surface-active"
-                    }`}
+                    variant="primary"
+                    size="sm"
+                    active={particleSpeed === speed}
+                    onClick={() =>
+                      setParticleSpeed(speed as "slow" | "medium" | "fast")
+                    }
+                    className="flex-1 py-2 px-3 rounded text-xs font-medium transition-colors hover:bg-surface-active"
                   >
                     {speed.charAt(0).toUpperCase() + speed.slice(1)}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>

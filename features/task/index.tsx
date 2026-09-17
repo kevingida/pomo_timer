@@ -132,7 +132,7 @@ const Task = ({ toggleDropdown, isTaskOpen }: TaskProps) => {
         </Button>
       </Tooltip>
       {isTaskOpen && (
-        <div className="absolute top-full right-0 mt-2 h-[90vh] w-87.5 lg:w-100 flex p-4 flex-col gap-2 rounded-[20px] transition-all duration-500 backdrop-blur-lg bg-transparent shadow-lg">
+        <div className="absolute top-full right-0 mt-2 h-[90vh] w-87.5 lg:w-100 flex p-4 flex-col gap-2 rounded-[20px] transition-all duration-500 backdrop-blur-lg bg-transparent shadow-lg z-50">
           <div className="flex flex-row justify-between items-center h-5 mb-4">
             <h2 className="text-lg font-bold text-text-primary">Tasks</h2>
             <Button
