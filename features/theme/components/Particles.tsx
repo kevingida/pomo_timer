@@ -61,10 +61,9 @@ const Particles = ({ type, opacity, speed }: ParticlesProps) => {
   return (
     <div
       ref={containerRef}
-      className={`particles-container particles-${type}`}
+      className={`particles-container particles-${type} particles-${type}-${speed}`}
       style={{
         "--particle-opacity": opacity / 100,
-        "--particle-speed": speed === "slow" ? "slow" : speed === "medium" ? "medium" : "fast",
       } as React.CSSProperties & Record<string, string | number>}
     />
   );

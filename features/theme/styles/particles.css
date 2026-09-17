@@ -32,7 +32,6 @@
 /* Rain */
 .particles-rain .particle-rain {
   background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, var(--particle-opacity, 1)) 100%);
-  animation: fall linear infinite;
 }
 
 @keyframes fall {
@@ -41,22 +40,21 @@
   }
 }
 
-.particles-rain.particles-rain-slow .particle-rain {
+.particles-rain-slow .particle-rain {
   animation: fall linear 8s infinite;
 }
 
-.particles-rain.particles-rain-medium .particle-rain {
+.particles-rain-medium .particle-rain {
   animation: fall linear 5s infinite;
 }
 
-.particles-rain.particles-rain-fast .particle-rain {
+.particles-rain-fast .particle-rain {
   animation: fall linear 2.5s infinite;
 }
 
 /* Snow */
 .particles-snow .particle-snow {
   background: radial-gradient(circle, rgba(255, 255, 255, var(--particle-opacity, 1)) 0%, rgba(255, 255, 255, 0) 70%);
-  animation: snowfall linear infinite;
 }
 
 @keyframes snowfall {
@@ -65,15 +63,15 @@
   }
 }
 
-.particles-snow.particles-snow-slow .particle-snow {
+.particles-snow-slow .particle-snow {
   animation: snowfall linear 12s infinite;
 }
 
-.particles-snow.particles-snow-medium .particle-snow {
+.particles-snow-medium .particle-snow {
   animation: snowfall linear 8s infinite;
 }
 
-.particles-snow.particles-snow-fast .particle-snow {
+.particles-snow-fast .particle-snow {
   animation: snowfall linear 4s infinite;
 }
 
@@ -81,7 +79,6 @@
 .particles-fireflies .particle-fireflies {
   background: radial-gradient(circle, rgba(255, 255, 200, var(--particle-opacity, 1)) 0%, rgba(255, 255, 200, 0) 70%);
   box-shadow: 0 0 8px rgba(255, 255, 200, var(--particle-opacity, 1));
-  animation: firefly ease-in-out infinite;
 }
 
 @keyframes firefly {
@@ -103,14 +100,14 @@
   }
 }
 
-.particles-fireflies.particles-fireflies-slow .particle-fireflies {
+.particles-fireflies-slow .particle-fireflies {
   animation: firefly ease-in-out 8s infinite;
 }
 
-.particles-fireflies.particles-fireflies-medium .particle-fireflies {
+.particles-fireflies-medium .particle-fireflies {
   animation: firefly ease-in-out 5s infinite;
 }
 
-.particles-fireflies.particles-fireflies-fast .particle-fireflies {
+.particles-fireflies-fast .particle-fireflies {
   animation: firefly ease-in-out 2.5s infinite;
 }
