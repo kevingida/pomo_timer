@@ -1,0 +1,116 @@
+.particles-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  background-color: rgba(255, 255, 255, var(--particle-opacity, 1));
+  border-radius: 50%;
+}
+
+/* Stars */
+.particles-stars .particle-stars {
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Rain */
+.particles-rain .particle-rain {
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, var(--particle-opacity, 1)) 100%);
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+.particles-rain.particles-rain-slow .particle-rain {
+  animation: fall linear 8s infinite;
+}
+
+.particles-rain.particles-rain-medium .particle-rain {
+  animation: fall linear 5s infinite;
+}
+
+.particles-rain.particles-rain-fast .particle-rain {
+  animation: fall linear 2.5s infinite;
+}
+
+/* Snow */
+.particles-snow .particle-snow {
+  background: radial-gradient(circle, rgba(255, 255, 255, var(--particle-opacity, 1)) 0%, rgba(255, 255, 255, 0) 70%);
+  animation: snowfall linear infinite;
+}
+
+@keyframes snowfall {
+  to {
+    transform: translateY(100vh) translateX(20px);
+  }
+}
+
+.particles-snow.particles-snow-slow .particle-snow {
+  animation: snowfall linear 12s infinite;
+}
+
+.particles-snow.particles-snow-medium .particle-snow {
+  animation: snowfall linear 8s infinite;
+}
+
+.particles-snow.particles-snow-fast .particle-snow {
+  animation: snowfall linear 4s infinite;
+}
+
+/* Fireflies */
+.particles-fireflies .particle-fireflies {
+  background: radial-gradient(circle, rgba(255, 255, 200, var(--particle-opacity, 1)) 0%, rgba(255, 255, 200, 0) 70%);
+  box-shadow: 0 0 8px rgba(255, 255, 200, var(--particle-opacity, 1));
+  animation: firefly ease-in-out infinite;
+}
+
+@keyframes firefly {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(0, 0);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(20px, -20px);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-10px, -40px);
+  }
+  75% {
+    opacity: 1;
+    transform: translate(-30px, -20px);
+  }
+}
+
+.particles-fireflies.particles-fireflies-slow .particle-fireflies {
+  animation: firefly ease-in-out 8s infinite;
+}
+
+.particles-fireflies.particles-fireflies-medium .particle-fireflies {
+  animation: firefly ease-in-out 5s infinite;
+}
+
+.particles-fireflies.particles-fireflies-fast .particle-fireflies {
+  animation: firefly ease-in-out 2.5s infinite;
+}
