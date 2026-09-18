@@ -19,7 +19,6 @@ import { Mode } from "./type";
 import { useTheme } from "@/features/theme/hooks/useThemes";
 import useTasks from "../task/hooks/useTasks";
 import useSettings from "../settings/hooks/useSettings";
-import useScreenSize from "@/hooks/useScreenSize";
 
 interface TimerProps {
   isDropdownOpen: boolean;
@@ -29,7 +28,6 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
   const { settings } = useSettings();
   const { theme } = useTheme();
 
-  const { lg } = useScreenSize();
 
   const { mode, nextMode, changeMode } = usePomodoroCycle(
     settings.longBreakInterval,
@@ -108,13 +106,12 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
     if (isComplete) onSessionComplete();
   }, [isComplete]);
 
-  const shouldShift = isDropdownOpen && lg;
 
   return (
     <PiPProvider pipContainer={pipContainer} isPiPActive={isPiPActive}>
       <div
         className={`relative min-h-screen flex flex-col items-center justify-center gap-4 rounded w-full p-4 overflow-hidden transition-transform duration-300 ease-in-out
-      ${shouldShift ? "-translate-x-32" : "translate-x-0"}`}
+      ${isDropdownOpen ? "lg:-translate-x-32" : "translate-x-0"}`}
       >
         <TimerTabs mode={mode} handleModeChange={handleModeChange} />
 

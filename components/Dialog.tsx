@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import clsx from "clsx";
@@ -14,8 +14,12 @@ type DialogProps = {
   className?: string;
 };
 
+// Native <dialog> gives focus trapping, Escape handling, focus restore and an inert
+// backdrop for free, and showModal() works per-document so it behaves inside PiP too.
 const Dialog = ({ open, onClose, title, children, className }: DialogProps) => {
   const { pipContainer, isPiPActive } = usePiPWindow();
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
 
   const container =
     typeof document !== "undefined"
@@ -23,51 +27,46 @@ const Dialog = ({ open, onClose, title, children, className }: DialogProps) => {
         ? pipContainer
         : document.body
       : null;
-  const targetDoc = container?.ownerDocument ?? null;
 
   useEffect(() => {
-    if (!targetDoc || !open) return;
+    if (!open) return;
+    const dialog = dialogRef.current;
+    if (!dialog || typeof dialog.showModal !== "function") return;
 
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-
-    targetDoc.addEventListener("keydown", handleEscape);
+    if (!dialog.open) dialog.showModal();
 
     return () => {
-      targetDoc.removeEventListener("keydown", handleEscape);
+      if (dialog.isConnected && dialog.open) dialog.close();
     };
-  }, [onClose, targetDoc, open]);
+  }, [open]);
 
-  if (!open || !container || !targetDoc) return null;
-
-  // Use absolute positioning in PiP mode, fixed in main window
-  const positionClass = isPiPActive ? "absolute" : "fixed";
+  if (!open || !container) return null;
 
   const dialogContent = (
-    <div
-      className={`${positionClass} inset-0 z-50 flex items-center justify-center`}
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      ref={dialogRef}
+      aria-labelledby={title ? titleId : undefined}
+      onClose={onClose}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      className={clsx(
+        "m-auto w-[90%] lg:w-full max-w-md rounded-xl bg-surface-primary border-2 border-border-primary p-0 text-text-primary shadow-xl",
+        "backdrop:bg-black/50",
+        className,
+      )}
     >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-
-      {/* Content */}
-      <div
-        className={clsx(
-          "relative z-10 w-[90%] lg:w-full max-w-md rounded-xl bg-surface-primary border-2 border-border-primary p-6 shadow-xl",
-          className,
-        )}
-      >
+      <div className="p-6">
         {title && (
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-md lg:text-lg font-semibold">{title}</h2>
+            <h2 id={titleId} className="text-md lg:text-lg font-semibold">
+              {title}
+            </h2>
 
             <button
+              type="button"
               onClick={onClose}
+              aria-label="Close"
               className="rounded p-1 hover:bg-surface-primary/20"
             >
               <X className="h-5 w-5" />
@@ -77,10 +76,9 @@ const Dialog = ({ open, onClose, title, children, className }: DialogProps) => {
 
         {children}
       </div>
-    </div>
+    </dialog>
   );
 
-  // Portal to the correct document (main or PiP)
   return createPortal(dialogContent, container);
 };
 

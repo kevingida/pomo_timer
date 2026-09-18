@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import Timer from "./components/Timer";
 import ThemeSettings from "./components/ThemeSettings";
 import Sounds from "./components/Sounds";
-import useScreenSize from "@/hooks/useScreenSize";
 
 interface SettingsProps {
   toggleDropdown: (type: string) => void;
@@ -16,7 +15,6 @@ interface SettingsProps {
 const Settings = ({ toggleDropdown, isSettingsOpen }: SettingsProps) => {
   const [tab, setTab] = useState("timer");
 
-  const { sm } = useScreenSize();
 
   const renderTabContent = () => {
     switch (tab) {
@@ -57,9 +55,13 @@ const Settings = ({ toggleDropdown, isSettingsOpen }: SettingsProps) => {
   }, [isSettingsOpen, toggleDropdown]);
 
   return (
-    <div ref={containerRef} className={`${sm ? "relative " : ""}`}>
+    <div ref={containerRef} className="sm:relative">
       <Tooltip content="Settings">
-        <Button onClick={() => toggleDropdown("settings")}>
+        <Button
+          aria-label="Settings"
+          aria-expanded={isSettingsOpen}
+          onClick={() => toggleDropdown("settings")}
+        >
           <SettingsIcon />
         </Button>
       </Tooltip>
@@ -69,7 +71,11 @@ const Settings = ({ toggleDropdown, isSettingsOpen }: SettingsProps) => {
             <div className="flex flex-row justify-between items-center h-5 mb-4">
               <h2 className="text-lg font-bold text-text-primary">Settings</h2>
             </div>
-            <div className="flex gap-2 w-full border border-border-primary rounded-full">
+            <div
+              role="tablist"
+              aria-label="Settings sections"
+              className="flex gap-2 w-full border border-border-primary rounded-full"
+            >
               {[
                 { id: "timer", label: "Timer" },
                 { id: "sounds", label: "Sounds" },
@@ -77,6 +83,8 @@ const Settings = ({ toggleDropdown, isSettingsOpen }: SettingsProps) => {
               ].map(({ id, label }) => (
                 <Button
                   key={id}
+                  role="tab"
+                  aria-selected={tab === id}
                   onClick={() => setTab(id)}
                   variant={"primary"}
                   active={tab === id}

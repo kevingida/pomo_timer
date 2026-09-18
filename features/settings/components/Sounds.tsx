@@ -26,7 +26,6 @@ const Sounds = () => {
   const { settings, updateSettings } = useSettings();
   const { handlePlaySound } = useSound(settings.soundEnabled, settings.volume);
 
-
   const [focusEndSound, setFocusEndSound] = useState<SoundOptionValue>(
     settings.focusEndSound,
   );
@@ -111,7 +110,9 @@ const Sounds = () => {
                 handleSoundChange("focusEndSound", value as SoundOptionValue)
               }
             />
-            <div
+            <button
+              type="button"
+              aria-label="Preview focus end sound"
               className={`flex w-fit h-fit p-2 rounded-full bg-white/5 items-center justify-center cursor-pointer transition-transform duration-150 hover:bg-white/10 ${
                 playingKey === "focusEndSound"
                   ? "scale-90 bg-white/15"
@@ -120,7 +121,7 @@ const Sounds = () => {
               onClick={() => handleTestSound("focusEndSound")}
             >
               <Play className="w-6 h-6 text-text-primary" />
-            </div>
+            </button>
           </div>
         </div>
         <div className="flex flex-row justify-between gap-4 mt-2 w-full items-center">
@@ -144,7 +145,9 @@ const Sounds = () => {
                 handleSoundChange("breakEndSound", value as SoundOptionValue)
               }
             />
-            <div
+            <button
+              type="button"
+              aria-label="Preview break end sound"
               className={`flex w-fit h-fit p-2 rounded-full bg-white/5 items-center justify-center cursor-pointer transition-transform duration-150 hover:bg-white/10 ${
                 playingKey === "breakEndSound"
                   ? "scale-90 bg-white/15"
@@ -153,29 +156,32 @@ const Sounds = () => {
               onClick={() => handleTestSound("breakEndSound")}
             >
               <Play className="w-6 h-6 text-text-primary" />
-            </div>
+            </button>
           </div>
         </div>
         <div className="h-px bg-surface-active/40 rounded-full mt-4" />
         <div className="flex flex-col w-full">
           <div className="flex flex-row gap-4 mt-2 justify-center items-center">
-            <div
+            <button
+              type="button"
+              aria-label={settings.soundEnabled ? "Mute" : "Unmute"}
+              aria-pressed={!settings.soundEnabled}
               className="flex w-fit h-fit p-2 rounded-full bg-white/5 items-center justify-center"
               onClick={handleMuteToggle}
-              id="volume"
             >
               {settings.soundEnabled ? (
                 <Volume2 className="w-6 h-6 text-text-primary" />
               ) : (
                 <VolumeX className="w-6 h-6 text-text-primary" />
               )}
-            </div>
+            </button>
             <div className="flex flex-col gap-1 w-full">
               <div className="flex flex-row gap-2 items-center justify-between w-full">
                 <span className="text-sm font-semibold text-text-primary">
                   Volume
                 </span>
                 <NumberInput
+                  label="Volume"
                   value={volume}
                   min={0}
                   max={100}
@@ -184,6 +190,7 @@ const Sounds = () => {
                 />
               </div>
               <Slider
+                label="Volume"
                 min={0}
                 max={100}
                 value={volume}

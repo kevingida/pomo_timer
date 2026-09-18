@@ -32,7 +32,12 @@ const Toast = ({ toast, onClose }: ToastProps) => {
 
       <p className="flex-1 text-sm">{toast.message}</p>
 
-      <button onClick={() => onClose(toast.id)} className="hover:opacity-70">
+      <button
+        type="button"
+        aria-label="Dismiss notification"
+        onClick={() => onClose(toast.id)}
+        className="hover:opacity-70"
+      >
         <X className="h-4 w-4" />
       </button>
     </div>

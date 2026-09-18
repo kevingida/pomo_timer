@@ -9,7 +9,6 @@ import useTaskEditor from "./hooks/useTaskEditor";
 import TaskEditor from "./components/Taskeditor";
 import Tooltip from "@/components/Tooltip";
 import useTasks from "./hooks/useTasks";
-import useScreenSize from "@/hooks/useScreenSize";
 
 interface TaskProps {
   toggleDropdown: (type: string) => void;
@@ -48,7 +47,6 @@ const Task = ({ toggleDropdown, isTaskOpen }: TaskProps) => {
 
   const toast = useToast();
 
-  const { sm } = useScreenSize();
 
   const resizeTextarea = (element: HTMLTextAreaElement | null) => {
     if (!element) return;
@@ -130,9 +128,13 @@ const Task = ({ toggleDropdown, isTaskOpen }: TaskProps) => {
   }, [selectedTask, updateTask]);
 
   return (
-    <div className={`${sm ? "relative " : ""} w-full`}>
+    <div className="sm:relative w-full">
       <Tooltip content="Tasks">
-        <Button onClick={() => toggleDropdown("task")}>
+        <Button
+          aria-label="Tasks"
+          aria-expanded={isTaskOpen}
+          onClick={() => toggleDropdown("task")}
+        >
           <ListTodo />
         </Button>
       </Tooltip>

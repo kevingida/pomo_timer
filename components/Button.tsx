@@ -3,7 +3,7 @@ import React from "react";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger" | "outline";
-  size?: "sm" | "md" | "lg" | "xs" | "circle";
+  size?: "sm" | "md" | "lg" | "xs" | "circle" | "responsive";
   active?: boolean;
 };
 
@@ -36,6 +36,7 @@ const Button = ({
     md: "px-2.5 py-2.5 text-base",
     lg: "px-5 py-3 text-lg",
     circle: "p-0 aspect-square",
+    responsive: "px-3 py-1.5 text-sm sm:px-5 sm:py-3 sm:text-lg",
   };
 
   const actives = active

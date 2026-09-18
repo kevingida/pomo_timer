@@ -35,11 +35,16 @@ const TaskEditor = ({
           ? "max-h-96 opacity-100 p-4 border border-border-primary mb-4"
           : "max-h-0 opacity-0 p-0 border-0 mb-0"
       }`}
+      inert={!editor.status}
     >
-      <X
+      <button
+        type="button"
+        aria-label="Close editor"
         className="cursor-pointer absolute top-2 right-2"
         onClick={closeEditor}
-      />
+      >
+        <X />
+      </button>
       <TaskForm
         selectedTask={selectedTask}
         handleInputChange={handleInputChange}
@@ -57,6 +62,7 @@ const TaskEditor = ({
         <div className="flex flex-row gap-2 w-full justify-end">
           <Button
             onClick={handleDeleteTask}
+            aria-label="Delete task"
             className="self-end bg-surface-active! text-text-active! hover:bg-transparent! hover:text-text-primary! focus:ring-surface-active shadow-lg w-20 flex flex-row items-center justify-center"
             size="sm"
           >

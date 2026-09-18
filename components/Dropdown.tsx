@@ -46,6 +46,8 @@ const Dropdown = ({
     >
       <button
         type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center justify-between rounded-xl border border-border-primary bg-white/5 px-3 py-1.5 lg:px-4 lg:py-2.5 backdrop-blur-lg transition-all hover:bg-white/10"
         id={id}
@@ -61,10 +63,12 @@ const Dropdown = ({
       </button>
 
       {open && (
-        <div className=" absolute left-0 top-full z-50 mt-2 w-full overflow-hidden rounded-xl border border-border-primary/30 bg-surface-active/95 backdrop-blur-lg shadow-2xl">
+        <div role="listbox" className=" absolute left-0 top-full z-50 mt-2 w-full overflow-hidden rounded-xl border border-border-primary/30 bg-surface-active/95 backdrop-blur-lg shadow-2xl">
           {options.map((option) => (
             <button
               key={option.value}
+              role="option"
+              aria-selected={option.value === value}
               onClick={() => {
                 onChange(option.value);
                 setOpen(false);

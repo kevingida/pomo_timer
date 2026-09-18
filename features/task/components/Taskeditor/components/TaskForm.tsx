@@ -21,6 +21,7 @@ const TaskForm = ({
     <div className="flex flex-col gap-4">
       <textarea
         ref={resizeTextarea}
+        aria-label="Task title"
         onChange={(e) => handleInputChange("title", e)}
         placeholder="New task ..."
         className="text-md font-semibold text-text-primary bg-transparent border-none focus:outline-none wrap-break-word w-65 resize-none"
@@ -36,6 +37,7 @@ const TaskForm = ({
         <span className="flex flex-row items-center justify-center">
           <Button
             className="border-none p-0!"
+            aria-label="Decrease estimated pomodoros"
             onClick={() =>
               handleInputChange(
                 "estimatedPomodoros",
@@ -55,13 +57,14 @@ const TaskForm = ({
             className="w-10 text-center bg-transparent text-base"
             value={selectedTask?.estimatedPomodoros}
             onChange={(e) => {
-              const raw = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+              const raw = e.target.value.replace(/\D/g, "");
               const value = raw === "" ? 0 : Math.min(Number(raw), 99);
               handleInputChange("estimatedPomodoros", undefined, value);
             }}
           />
           <Button
             className="border-none p-0!"
+            aria-label="Increase estimated pomodoros"
             onClick={() =>
               handleInputChange(
                 "estimatedPomodoros",
@@ -77,6 +80,7 @@ const TaskForm = ({
       </div>
       <textarea
         ref={resizeTextarea}
+        aria-label="Task notes"
         onChange={(e) => handleInputChange("notes", e)}
         placeholder="Add notes ..."
         className="text-sm font-normal text-text-primary bg-transparent border-none focus:outline-none wrap-break-word w-65 resize-none"

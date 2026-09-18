@@ -20,7 +20,7 @@ const TaskListItem = ({
 }: TaskListItemProps) => {
   const [element, setElement] = useState<Element | null>(null);
 
-  const handleRef = useRef<SVGSVGElement | null>(null);
+  const handleRef = useRef<HTMLButtonElement | null>(null);
 
   const { isDragging } = useSortable({
     id: task.id,
@@ -31,28 +31,39 @@ const TaskListItem = ({
   return (
     <li
       ref={setElement}
-      key={task.id}
-      className={`flex flex-row items-center justify-between p-2 rounded-lg border border-border-primary cursor-pointer hover:border-surface-active hover:bg-surface-primary/50 transition-all duration-200 ${isDragging ? "item-shadow" : ""}`}
-      onClick={() => handleOpenTask("TaskDetails", task)}
+      className={`flex flex-row items-center justify-between gap-2 p-2 rounded-lg border border-border-primary hover:border-surface-active hover:bg-surface-primary/50 transition-all duration-200 ${isDragging ? "item-shadow" : ""}`}
     >
-      <div className="flex flex-row items-center gap-2 text-text-primary w-full">
-        <GripVertical ref={handleRef} />
+      <button
+        ref={handleRef}
+        type="button"
+        aria-label="Drag to reorder"
+        className="cursor-grab text-text-primary touch-none"
+      >
+        <GripVertical />
+      </button>
+
+      <button
+        type="button"
+        onClick={() => handleOpenTask("TaskDetails", task)}
+        className="flex flex-1 min-w-0 flex-row items-center justify-between gap-2 text-left text-text-primary cursor-pointer"
+      >
         <span
-          className={`max-w-62.5 truncate ${task.completed && "line-through text-text-primary/50"}`}
+          className={`truncate ${task.completed ? "line-through text-text-primary/50" : ""}`}
         >
           {task.title}
         </span>
-      </div>
-      <div className="text-text-primary/50 mr-2">
-        {task.completedPomodoros}/{task.estimatedPomodoros}
-      </div>
+        <span className="text-text-primary/50 shrink-0">
+          {task.completedPomodoros}/{task.estimatedPomodoros}
+        </span>
+      </button>
 
       <Button
         className="border-none p-0!"
-        onClick={(e) => {
-          e.stopPropagation();
-          handleCompleteTask(task.id);
-        }}
+        aria-label={
+          task.completed ? "Mark as not completed" : "Mark as completed"
+        }
+        aria-pressed={task.completed}
+        onClick={() => handleCompleteTask(task.id)}
       >
         <Tooltip content={task.completed ? "Completed" : "Not completed"}>
           {task.completed ? (

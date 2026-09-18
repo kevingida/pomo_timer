@@ -1,6 +1,5 @@
 import Button from "@/components/Button";
 import Tooltip from "@/components/Tooltip";
-import useScreenSize from "@/hooks/useScreenSize";
 import { RotateCcw, Pause, Play, PictureInPicture } from "lucide-react";
 
 interface TimerControlProps {
@@ -24,8 +23,6 @@ const TimerControl = ({
   isPiPActive = false,
   hidePIPButton = false,
 }: TimerControlProps) => {
-  const { sm } = useScreenSize();
-
   const gridCols = isPiPSupported ? "grid-cols-3" : "grid-cols-2";
   const gridWidth = isPiPSupported ? "lg:w-full" : "lg:w-62.5";
 
@@ -36,6 +33,7 @@ const TimerControl = ({
       <Tooltip content="Reset">
         <Button
           size="circle"
+          aria-label="Reset timer"
           onClick={handleReset}
           className={`transition-opacity duration-200 h-13.5 aspect-square flex items-center justify-center ${showReset ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         >
@@ -45,7 +43,7 @@ const TimerControl = ({
 
       <Button
         onClick={handlePlayPause}
-        size={sm ? "lg" : "sm"}
+        size="responsive"
         className="min-h-13.5 shrink-0"
       >
         {isRunning ? (
@@ -63,6 +61,12 @@ const TimerControl = ({
         <Tooltip content={isPiPActive ? "Exit PiP" : "Picture in Picture"}>
           <Button
             size="circle"
+            aria-label={
+              isPiPActive
+                ? "Exit picture in picture"
+                : "Open picture in picture"
+            }
+            aria-pressed={isPiPActive}
             onClick={onPiPClick}
             className={`h-13.5 aspect-square flex items-center justify-center transition-all p-0 ${
               isPiPActive ? "" : "bg-surface-active/70"

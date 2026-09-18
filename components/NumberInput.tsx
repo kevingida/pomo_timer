@@ -5,6 +5,7 @@ interface NumberInputProps {
   min: number;
   max: number;
   unit?: string;
+  label?: string;
   onCommit: (value: number) => void;
   onChange?: (value: number) => void;
 }
@@ -14,6 +15,7 @@ const NumberInput = ({
   min,
   max,
   unit,
+  label,
   onCommit,
   onChange,
 }: NumberInputProps) => {
@@ -23,6 +25,7 @@ const NumberInput = ({
       <input
         type="text"
         inputMode="numeric"
+        aria-label={label}
         pattern="[0-9]*"
         value={value}
         className="

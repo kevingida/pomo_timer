@@ -3,6 +3,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type KeyboardEvent,
   type MouseEvent,
   type TouchEvent,
 } from "react";
@@ -12,9 +13,10 @@ interface SliderProps {
   max: number;
   value: number;
   onChange: (value: number) => void;
+  label?: string;
 }
 
-const Slider = ({ min, max, value, onChange }: SliderProps) => {
+const Slider = ({ min, max, value, onChange, label }: SliderProps) => {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const [dragging, setDragging] = useState(false);
   const clampedValue = Math.min(Math.max(value, min), max);
@@ -43,6 +45,31 @@ const Slider = ({ min, max, value, onChange }: SliderProps) => {
     if (typeof clientX === "number") updateFromClientX(clientX);
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    const step = e.shiftKey ? 10 : 1;
+    let next: number;
+    switch (e.key) {
+      case "ArrowRight":
+      case "ArrowUp":
+        next = clampedValue + step;
+        break;
+      case "ArrowLeft":
+      case "ArrowDown":
+        next = clampedValue - step;
+        break;
+      case "Home":
+        next = min;
+        break;
+      case "End":
+        next = max;
+        break;
+      default:
+        return;
+    }
+    e.preventDefault();
+    onChange(Math.min(max, Math.max(min, next)));
+  };
+
   useEffect(() => {
     if (!dragging) return;
     const move = (e: globalThis.MouseEvent | globalThis.TouchEvent) => {
@@ -64,9 +91,16 @@ const Slider = ({ min, max, value, onChange }: SliderProps) => {
   return (
     <div
       ref={trackRef}
+      role="slider"
+      tabIndex={0}
+      aria-label={label}
+      aria-valuemin={min}
+      aria-valuemax={max}
+      aria-valuenow={clampedValue}
       onMouseDown={handlePointerDown}
       onTouchStart={handlePointerDown}
-      className="relative h-7 flex items-center cursor-pointer touch-none "
+      onKeyDown={handleKeyDown}
+      className="relative h-7 flex items-center cursor-pointer touch-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-surface-active"
     >
       <div className="relative w-full h-1 rounded-full bg-border-primary">
         <p className="absolute left-0  top-2 text-xs font-medium text-text-primary">

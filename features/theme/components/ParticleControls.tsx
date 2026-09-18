@@ -51,6 +51,7 @@ const ParticleControls = () => {
                   Opacity
                 </span>
                 <NumberInput
+                  label="Opacity"
                   value={particleOpacity}
                   min={0}
                   max={100}
@@ -60,6 +61,7 @@ const ParticleControls = () => {
                 />
               </div>
               <Slider
+                label="Opacity"
                 min={0}
                 max={100}
                 value={particleOpacity}

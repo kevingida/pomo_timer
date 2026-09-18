@@ -80,6 +80,7 @@ const Timer = () => {
                     {item.title}
                   </span>
                   <NumberInput
+                    label={item.title}
                     value={
                       localValues[
                         item.settings as keyof typeof localValues
@@ -95,6 +96,7 @@ const Timer = () => {
                   />
                 </div>
                 <Slider
+                  label={item.title}
                   min={item.min}
                   max={item.max}
                   value={
@@ -126,6 +128,7 @@ const Timer = () => {
           </div>
           <div className="flex flex-row items-center border border-border-primary rounded-sm">
             <Button
+              aria-label="Decrease sessions before long break"
               className=" rounded-sm p-1! -m-px"
               onClick={() =>
                 commit(
@@ -140,6 +143,7 @@ const Timer = () => {
               <Minus className="w-4 h-4" />
             </Button>
             <NumberInput
+              label="Sessions before long break"
               value={
                 localValues[
                   "longBreakInterval" as keyof typeof localValues
@@ -150,6 +154,7 @@ const Timer = () => {
               onCommit={(value) => commit("longBreakInterval", value, 1, 10)}
             />
             <Button
+              aria-label="Increase sessions before long break"
               className=" rounded-sm p-1! -m-px"
               onClick={() =>
                 commit(
