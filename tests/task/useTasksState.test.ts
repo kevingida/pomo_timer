@@ -129,7 +129,7 @@ describe("useTasksState", () => {
         completed: false,
         completedAt: undefined,
         completedPomodoros: 0,
-        estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -206,6 +206,8 @@ describe("useTasksState", () => {
       const updatedTask: Task = {
         ...originalTask,
         title: "Updated Task",
+        estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -225,7 +227,7 @@ describe("useTasksState", () => {
         completed: false,
         completedAt: undefined,
         completedPomodoros: 0,
-        estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       const task2: Task = {
@@ -235,7 +237,7 @@ describe("useTasksState", () => {
         completed: false,
         completedAt: undefined,
         completedPomodoros: 0,
-        estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -266,7 +268,7 @@ describe("useTasksState", () => {
         completed: false,
         completedAt: undefined,
         completedPomodoros: 0,
-        estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -291,6 +293,7 @@ describe("useTasksState", () => {
         completedAt: undefined,
         completedPomodoros: 0,
         estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -333,6 +336,7 @@ describe("useTasksState", () => {
         completedAt: undefined,
         completedPomodoros: 0,
         estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -356,6 +360,7 @@ describe("useTasksState", () => {
         completedAt: undefined,
         completedPomodoros: 0,
         estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -381,6 +386,7 @@ describe("useTasksState", () => {
         completedAt: undefined,
         completedPomodoros: 0,
         estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       const task2: Task = {
@@ -390,6 +396,7 @@ describe("useTasksState", () => {
         completedAt: undefined,
         completedPomodoros: 0,
         estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -417,6 +424,7 @@ describe("useTasksState", () => {
         completedAt: undefined,
         completedPomodoros: 0,
         estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -441,6 +449,7 @@ describe("useTasksState", () => {
         completedAt: undefined,
         completedPomodoros: 0,
         estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -471,8 +480,8 @@ describe("useTasksState", () => {
 
   describe("localStorage persistence", () => {
     it("should save tasks to localStorage", () => {
-      localStorage.setItem.mockClear();
-      localStorage.getItem.mockReturnValue(null);
+      jest.mocked(localStorage.setItem).mockClear();
+      jest.mocked(localStorage.getItem).mockReturnValue(null);
 
       const { result } = renderHook(() => useTaskState());
 
@@ -482,6 +491,8 @@ describe("useTasksState", () => {
         completed: false,
         completedAt: undefined,
         completedPomodoros: 0,
+        estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       act(() => {
@@ -495,8 +506,8 @@ describe("useTasksState", () => {
     });
 
     it("should not save to localStorage until loaded", () => {
-      localStorage.setItem.mockClear();
-      localStorage.getItem.mockReturnValue(null);
+      jest.mocked(localStorage.setItem).mockClear();
+      jest.mocked(localStorage.getItem).mockReturnValue(null);
 
       const { result } = renderHook(() => useTaskState());
 
@@ -506,6 +517,8 @@ describe("useTasksState", () => {
         completed: false,
         completedAt: undefined,
         completedPomodoros: 0,
+        estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       // First call is from initial effect when checking isLoaded
@@ -534,6 +547,8 @@ describe("useTasksState", () => {
         completed: false,
         completedAt: undefined,
         completedPomodoros: 0,
+        estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       const task2: Task = {
@@ -542,6 +557,8 @@ describe("useTasksState", () => {
         completed: false,
         completedAt: undefined,
         completedPomodoros: 0,
+        estimatedPomodoros: 1,
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
       const task3: Task = {

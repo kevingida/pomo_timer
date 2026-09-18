@@ -173,3 +173,61 @@ describe('useTimer', () => {
     })
   })
 })
+
+describe('useTimer wall-clock accuracy', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+
+  afterEach(() => {
+    jest.useRealTimers()
+  })
+
+  it('catches up from the real clock when the tab becomes visible again', () => {
+    const { result } = renderHook(() => useTimer({ duration: 25 }))
+
+    act(() => {
+      result.current.start()
+    })
+
+    // Throttled background tab: time passes but no interval fires
+    act(() => {
+      jest.setSystemTime(Date.now() + 90_000)
+      document.dispatchEvent(new Event('visibilitychange'))
+    })
+
+    expect(result.current.remaining).toBe(1410)
+  })
+
+  it('does not drift when interval ticks are delayed', () => {
+    const { result } = renderHook(() => useTimer({ duration: 25 }))
+
+    act(() => {
+      result.current.start()
+    })
+
+    act(() => {
+      jest.setSystemTime(Date.now() + 120_000)
+      jest.advanceTimersByTime(1000)
+    })
+
+    expect(result.current.remaining).toBe(1379)
+  })
+
+  it('completes on the first tick after the deadline passed in the background', () => {
+    const { result } = renderHook(() => useTimer({ duration: 1 }))
+
+    act(() => {
+      result.current.start()
+    })
+
+    act(() => {
+      jest.setSystemTime(Date.now() + 5 * 60_000)
+      document.dispatchEvent(new Event('visibilitychange'))
+    })
+
+    expect(result.current.isComplete).toBe(true)
+    expect(result.current.remaining).toBe(0)
+    expect(result.current.status).toBe('idle')
+  })
+})
