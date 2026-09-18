@@ -4,7 +4,7 @@ import Tooltip from "./Tooltip";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger" | "outline";
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xs" | "circle";
   loading?: boolean;
   active?: boolean;
 };
@@ -38,6 +38,7 @@ const Button = ({
     sm: "px-3 py-1.5 text-sm",
     md: "px-2.5 py-2.5 text-base",
     lg: "px-5 py-3 text-lg",
+    circle: "p-0 aspect-square",
   };
 
   const actives = active

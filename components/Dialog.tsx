@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import clsx from "clsx";
+import { usePiPWindow } from "@/features/timer/context/PiPContext";
 
 type DialogProps = {
   open: boolean;
@@ -13,25 +15,40 @@ type DialogProps = {
 };
 
 const Dialog = ({ open, onClose, title, children, className }: DialogProps) => {
+  const { pipContainer, isPiPActive } = usePiPWindow();
+
+  const container =
+    typeof document !== "undefined"
+      ? isPiPActive && pipContainer
+        ? pipContainer
+        : document.body
+      : null;
+  const targetDoc = container?.ownerDocument ?? null;
+
   useEffect(() => {
+    if (!targetDoc || !open) return;
+
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onClose();
       }
     };
 
-    document.addEventListener("keydown", handleEscape);
+    targetDoc.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
+      targetDoc.removeEventListener("keydown", handleEscape);
     };
-  }, [onClose]);
+  }, [onClose, targetDoc, open]);
 
-  if (!open) return null;
+  if (!open || !container || !targetDoc) return null;
 
-  return (
+  // Use absolute positioning in PiP mode, fixed in main window
+  const positionClass = isPiPActive ? "absolute" : "fixed";
+
+  const dialogContent = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className={`${positionClass} inset-0 z-50 flex items-center justify-center`}
       role="dialog"
       aria-modal="true"
     >
@@ -62,6 +79,9 @@ const Dialog = ({ open, onClose, title, children, className }: DialogProps) => {
       </div>
     </div>
   );
+
+  // Portal to the correct document (main or PiP)
+  return createPortal(dialogContent, container);
 };
 
 export default Dialog;
