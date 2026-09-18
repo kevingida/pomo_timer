@@ -44,9 +44,9 @@ describe("useTasksState", () => {
     it("should handle invalid JSON in localStorage gracefully", () => {
       getItemMock.mockReturnValue("invalid json");
 
-      expect(() => {
-        renderHook(() => useTaskState());
-      }).toThrow();
+      const { result } = renderHook(() => useTaskState());
+
+      expect(result.current.taskList).toEqual([]);
     });
   });
 
@@ -569,7 +569,7 @@ describe("useTasksState", () => {
           operation: "swap",
           source: 0,
           destination: 2,
-        } as any);
+        } as unknown as Parameters<typeof result.current.reorderTasks>[0]);
       });
 
       // Task list should still have 3 items after reorder

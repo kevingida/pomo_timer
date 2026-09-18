@@ -1,7 +1,6 @@
 import { formatTime } from "@/utils/formatTime";
 import { useEffect } from "react";
-
-type TimerStatus = "idle" | "running" | "paused";
+import { TimerStatus } from "../type";
 
 interface UseDocumentTitleProps {
   remaining: number;

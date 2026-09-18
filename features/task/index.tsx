@@ -16,8 +16,13 @@ interface TaskProps {
   isTaskOpen: boolean;
 }
 
+// crypto.randomUUID is only available in secure contexts (https/localhost)
+const createId = () =>
+  globalThis.crypto?.randomUUID?.() ??
+  `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+
 const createInitialTask = (): Tasktype => ({
-  id: crypto.randomUUID(),
+  id: createId(),
   title: "",
   notes: "",
   completed: false,
@@ -122,7 +127,7 @@ const Task = ({ toggleDropdown, isTaskOpen }: TaskProps) => {
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [selectedTask]);
+  }, [selectedTask, updateTask]);
 
   return (
     <div className={`${sm ? "relative " : ""} w-full`}>

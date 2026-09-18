@@ -1,49 +1,95 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-
-export type TimerStatus = "idle" | "running" | "paused";
+import { useCallback, useEffect, useState } from "react";
+import { TimerStatus } from "../type";
 
 interface UseTimerProps {
   duration: number;
 }
 
+type TimerState = {
+  status: TimerStatus;
+  // Elapsed time accumulated before the current running segment
+  baseElapsedMs: number;
+  startedAt: number | null;
+  elapsedMs: number;
+};
+
+const IDLE: TimerState = {
+  status: "idle",
+  baseElapsedMs: 0,
+  startedAt: null,
+  elapsedMs: 0,
+};
+
+// Elapsed time is derived from wall-clock timestamps rather than counted ticks, so the
+// timer stays accurate when the tab is hidden and the browser throttles timers.
 const useTimer = ({ duration }: UseTimerProps) => {
-  const [elapsed, setElapsed] = useState<number>(0);
-  const [status, setStatus] = useState<TimerStatus>("idle");
+  const totalMs = duration * 60 * 1000;
 
-  const remaining = useMemo(
-    () => Math.max(duration * 60 - elapsed, 0),
-    [duration, elapsed],
-  );
+  const [timer, setTimer] = useState<TimerState>(IDLE);
+  const [prevDuration, setPrevDuration] = useState(duration);
 
-  const isComplete = remaining === 0;
+  if (prevDuration !== duration) {
+    setPrevDuration(duration);
+    setTimer(IDLE);
+  }
 
-  const start = useCallback(() => setStatus("running"), []);
-  const pause = useCallback(() => setStatus("paused"), []);
-  const reset = useCallback(() => {
-    setElapsed(0);
-    setStatus("idle");
+  const { status, baseElapsedMs, startedAt, elapsedMs } = timer;
+
+  const remaining = Math.max(Math.ceil((totalMs - elapsedMs) / 1000), 0);
+  const isComplete = elapsedMs >= totalMs;
+
+  const start = useCallback(() => {
+    const now = Date.now();
+    setTimer((prev) =>
+      prev.status === "running"
+        ? prev
+        : { ...prev, status: "running", startedAt: now },
+    );
   }, []);
 
-  // tick
-  useEffect(() => {
-    if (status !== "running") return;
-    const id = setInterval(
-      () =>
-        setElapsed((e) => {
-          if (e >= duration * 60 - 1) {
-            setStatus("idle");
-            return duration * 60;
-          }
-          return e + 1;
-        }),
-      1000,
-    );
-    return () => clearInterval(id);
-  }, [status, duration]);
+  const pause = useCallback(() => {
+    const now = Date.now();
+    setTimer((prev) => {
+      if (prev.status !== "running" || prev.startedAt === null) return prev;
+      const elapsed = prev.baseElapsedMs + (now - prev.startedAt);
+      return {
+        status: "paused",
+        baseElapsedMs: elapsed,
+        startedAt: null,
+        elapsedMs: elapsed,
+      };
+    });
+  }, []);
+
+  const reset = useCallback(() => {
+    setTimer(IDLE);
+  }, []);
 
   useEffect(() => {
-    reset();
-  }, [duration]);
+    if (status !== "running" || startedAt === null) return;
+
+    const tick = () => {
+      const elapsed = Math.min(baseElapsedMs + (Date.now() - startedAt), totalMs);
+      setTimer((prev) =>
+        elapsed >= totalMs
+          ? {
+              status: "idle",
+              baseElapsedMs: totalMs,
+              startedAt: null,
+              elapsedMs: totalMs,
+            }
+          : { ...prev, elapsedMs: elapsed },
+      );
+    };
+
+    const id = setInterval(tick, 1000);
+    document.addEventListener("visibilitychange", tick);
+
+    return () => {
+      clearInterval(id);
+      document.removeEventListener("visibilitychange", tick);
+    };
+  }, [status, startedAt, baseElapsedMs, totalMs]);
 
   return {
     status,

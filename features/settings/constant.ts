@@ -1,13 +1,19 @@
 import { Bell, Coffee, Sofa } from "lucide-react";
 import { TimerSetting } from "./type";
 
+export const SETTING_LIMITS = {
+  focusDuration: { min: 5, max: 120 },
+  shortBreakDuration: { min: 1, max: 30 },
+  longBreakDuration: { min: 1, max: 60 },
+  longBreakInterval: { min: 1, max: 10 },
+} as const;
+
 export const TIMER_SETTINGS: TimerSetting[] = [
   {
     title: "Focus",
     settings: "focusDuration",
     icon: Bell,
-    min: 5,
-    max: 120,
+    ...SETTING_LIMITS.focusDuration,
     unit: "min",
     onChange: () => {},
   },
@@ -15,8 +21,7 @@ export const TIMER_SETTINGS: TimerSetting[] = [
     title: "Short Break",
     settings: "shortBreakDuration",
     icon: Coffee,
-    min: 1,
-    max: 30,
+    ...SETTING_LIMITS.shortBreakDuration,
     unit: "min",
     onChange: () => {},
   },
@@ -24,8 +29,7 @@ export const TIMER_SETTINGS: TimerSetting[] = [
     title: "Long Break",
     settings: "longBreakDuration",
     icon: Sofa,
-    min: 1,
-    max: 60,
+    ...SETTING_LIMITS.longBreakDuration,
     unit: "min",
     onChange: () => {},
   },

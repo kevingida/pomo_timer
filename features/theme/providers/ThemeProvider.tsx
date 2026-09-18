@@ -1,9 +1,10 @@
 "use client";
 
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo } from "react";
 
 import { themes, ThemeName } from "@/features/theme/data";
 import { Theme } from "../interface";
+import { useLocalStorageState } from "@/hooks/useLocalStorageState";
 
 type ThemeContextType = {
   theme: Theme;
@@ -14,8 +15,18 @@ type ThemeContextType = {
 
 export const ThemeContext = createContext<ThemeContextType | null>(null);
 
+const STORAGE_KEY = "theme";
+const DEFAULT_THEME: ThemeName = "sereneForest";
+
+const normalizeThemeName = (saved: unknown, defaults: ThemeName): ThemeName =>
+  typeof saved === "string" && saved in themes ? (saved as ThemeName) : defaults;
+
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [themeName, setThemeName] = useState<ThemeName>("sereneForest");
+  const [themeName, setThemeName] = useLocalStorageState(
+    STORAGE_KEY,
+    DEFAULT_THEME,
+    normalizeThemeName,
+  );
 
   const theme = useMemo(() => themes[themeName], [themeName]);
 
@@ -27,21 +38,12 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     });
   }, [theme]);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("theme");
-
-    if (saved && saved in themes) {
-      setThemeName(saved as ThemeName);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("theme", themeName);
-  }, [themeName]);
+  const value = useMemo(
+    () => ({ theme, themeName, setTheme: setThemeName }),
+    [theme, themeName, setThemeName],
+  );
 
   return (
-    <ThemeContext.Provider value={{ theme, themeName, setTheme: setThemeName }}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 };

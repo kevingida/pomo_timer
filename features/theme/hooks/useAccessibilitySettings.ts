@@ -1,70 +1,95 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
+import { useLocalStorageState } from "@/hooks/useLocalStorageState";
 
 type TextSize = "small" | "normal" | "large";
+type AccessibilitySettings = {
+  highContrast: boolean;
+  reduceMotion: boolean;
+  textSize: TextSize;
+};
+
+const STORAGE_KEY = "accessibilitySettings";
+const TEXT_SIZES: readonly TextSize[] = ["small", "normal", "large"];
+const defaultAccessibilitySettings: AccessibilitySettings = {
+  highContrast: false,
+  reduceMotion: false,
+  textSize: "normal",
+};
+
+const prefers = (query: string) =>
+  typeof window !== "undefined" &&
+  typeof window.matchMedia === "function" &&
+  window.matchMedia(query).matches;
+
+// System preferences take precedence over saved values
+const normalizeAccessibilitySettings = (
+  saved: unknown,
+  defaults: AccessibilitySettings,
+): AccessibilitySettings => {
+  const s = (saved && typeof saved === "object" ? saved : {}) as Partial<
+    Record<keyof AccessibilitySettings, unknown>
+  >;
+  return {
+    highContrast:
+      prefers("(prefers-contrast: more)") ||
+      (typeof s.highContrast === "boolean"
+        ? s.highContrast
+        : defaults.highContrast),
+    reduceMotion:
+      prefers("(prefers-reduced-motion: reduce)") ||
+      (typeof s.reduceMotion === "boolean"
+        ? s.reduceMotion
+        : defaults.reduceMotion),
+    textSize: TEXT_SIZES.includes(s.textSize as TextSize)
+      ? (s.textSize as TextSize)
+      : defaults.textSize,
+  };
+};
 
 export const useAccessibilitySettings = () => {
-  const [highContrast, setHighContrast] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
-  const [textSize, setTextSize] = useState<TextSize>("normal");
-
-  useEffect(() => {
-    const saved = localStorage.getItem("accessibilitySettings");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      setHighContrast(parsed.highContrast ?? false);
-      setReduceMotion(parsed.reduceMotion ?? false);
-      setTextSize(parsed.textSize ?? "normal");
-    }
-
-    // Check system preferences
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setReduceMotion(true);
-    }
-    if (window.matchMedia("(prefers-contrast: more)").matches) {
-      setHighContrast(true);
-    }
-  }, []);
+  const [settings, setSettings] = useLocalStorageState(
+    STORAGE_KEY,
+    defaultAccessibilitySettings,
+    normalizeAccessibilitySettings,
+  );
 
   useEffect(() => {
     const root = document.documentElement;
 
-    if (highContrast) {
-      root.classList.add("high-contrast");
-    } else {
-      root.classList.remove("high-contrast");
-    }
-
-    if (reduceMotion) {
-      root.classList.add("reduce-motion");
-    } else {
-      root.classList.remove("reduce-motion");
-    }
+    root.classList.toggle("high-contrast", settings.highContrast);
+    root.classList.toggle("reduce-motion", settings.reduceMotion);
 
     const fontSizeValue = {
       small: "14px",
       normal: "16px",
       large: "18px",
-    }[textSize];
+    }[settings.textSize];
     root.style.setProperty("--base-font-size", fontSizeValue);
+  }, [settings]);
 
-    localStorage.setItem(
-      "accessibilitySettings",
-      JSON.stringify({
-        highContrast,
-        reduceMotion,
-        textSize,
-      })
-    );
-  }, [highContrast, reduceMotion, textSize]);
+  const setHighContrast = useCallback(
+    (highContrast: boolean) =>
+      setSettings((prev) => ({ ...prev, highContrast })),
+    [setSettings],
+  );
+  const setReduceMotion = useCallback(
+    (reduceMotion: boolean) =>
+      setSettings((prev) => ({ ...prev, reduceMotion })),
+    [setSettings],
+  );
+  const setTextSize = useCallback(
+    (textSize: TextSize) => setSettings((prev) => ({ ...prev, textSize })),
+    [setSettings],
+  );
 
   return {
-    highContrast,
+    highContrast: settings.highContrast,
     setHighContrast,
-    reduceMotion,
+    reduceMotion: settings.reduceMotion,
     setReduceMotion,
-    textSize,
+    textSize: settings.textSize,
     setTextSize,
   };
 };
