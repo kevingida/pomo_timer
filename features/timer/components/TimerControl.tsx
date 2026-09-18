@@ -35,7 +35,6 @@ const TimerControl = ({
     >
       <Tooltip content="Reset">
         <Button
-          data-action="reset"
           size="circle"
           onClick={handleReset}
           className={`transition-opacity duration-200 h-13.5 aspect-square flex items-center justify-center ${showReset ? "opacity-100" : "opacity-0 pointer-events-none"}`}
@@ -45,7 +44,6 @@ const TimerControl = ({
       </Tooltip>
 
       <Button
-        data-action="play-pause"
         onClick={handlePlayPause}
         size={sm ? "lg" : "sm"}
         className="min-h-13.5 shrink-0"

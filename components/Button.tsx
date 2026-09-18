@@ -4,7 +4,6 @@ import React from "react";
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger" | "outline";
   size?: "sm" | "md" | "lg" | "xs" | "circle";
-  loading?: boolean;
   active?: boolean;
 };
 
@@ -12,7 +11,6 @@ const Button = ({
   children,
   variant = "primary",
   size = "md",
-  loading = false,
   disabled = false,
   className = "",
   type = "button",
@@ -47,7 +45,7 @@ const Button = ({
   return (
     <button
       type={type}
-      disabled={disabled || loading}
+      disabled={disabled}
       className={clsx(
         baseClasses,
         variants[variant],
@@ -57,7 +55,7 @@ const Button = ({
       )}
       {...props}
     >
-      {loading ? "Loading..." : children}
+      {children}
     </button>
   );
 };

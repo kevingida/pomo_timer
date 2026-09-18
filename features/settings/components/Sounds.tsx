@@ -24,7 +24,7 @@ type SoundOptionValue = "chime" | "bell" | "tick";
 
 const Sounds = () => {
   const { settings, updateSettings } = useSettings();
-  const { handlePlaySound } = useSound();
+  const { handlePlaySound } = useSound(settings.soundEnabled, settings.volume);
 
 
   const [focusEndSound, setFocusEndSound] = useState<SoundOptionValue>(
@@ -157,28 +157,6 @@ const Sounds = () => {
           </div>
         </div>
         <div className="h-px bg-surface-active/40 rounded-full mt-4" />
-        {/* <div className="flex flex-row justify-between gap-4 mt-2 w-full items-center">
-          <div className="flex flex-row gap-4 items-center">
-            <div
-              className="flex w-fit h-fit p-2 rounded-full bg-white/5 items-center justify-center"
-              onClick={handleMuteToggle}
-              id="volume"
-            >
-              {settings.soundEnabled ? (
-                <Volume2 className="w-6 h-6 text-text-primary" />
-              ) : (
-                <VolumeX className="w-6 h-6 text-text-primary" />
-              )}
-            </div>
-            <label
-              className="text-sm font-semibold text-text-primary"
-              htmlFor="volume"
-            >
-              Master Volume
-            </label>
-          </div>
-
-        </div> */}
         <div className="flex flex-col w-full">
           <div className="flex flex-row gap-4 mt-2 justify-center items-center">
             <div
@@ -201,7 +179,6 @@ const Sounds = () => {
                   value={volume}
                   min={0}
                   max={100}
-                  // unit={item.unit}
                   onChange={(value) => handleVolumeChange(value)}
                   onCommit={(value) => handleVolumeChange(value)}
                 />

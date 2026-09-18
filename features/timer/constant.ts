@@ -18,33 +18,8 @@ export const ALERTS = {
   },
 };
 
-export const MODES: Record<
-  Mode,
-  {
-    label: string;
-    duration: number;
-  }
-> = {
-  focus: {
-    label: "Focus",
-    duration: 0.1,
-  },
-  shortBreak: {
-    label: "Short Break",
-    duration: 0.1,
-  },
-  longBreak: {
-    label: "Long Break",
-    duration: 0.1,
-  },
-  // leisure: {
-  //   label: "Leisure",
-  //   duration: 1,
-  // },
-};
-
-export const CYCLE = {
-  focus: "shortBreak",
-  shortBreak: "focus",
-  longBreak: "focus",
+export const MODES: Record<Mode, { label: string }> = {
+  focus: { label: "Focus" },
+  shortBreak: { label: "Short Break" },
+  longBreak: { label: "Long Break" },
 };

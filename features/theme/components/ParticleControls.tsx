@@ -1,6 +1,6 @@
 import NumberInput from "@/components/NumberInput";
 import Slider from "@/components/Slider";
-import { useParticleControl } from "../hooks/useParticleControl";
+import { useParticleControl } from "../context/ParticleContext";
 import { Sparkles } from "lucide-react";
 import Button from "@/components/Button";
 

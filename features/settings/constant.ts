@@ -15,7 +15,6 @@ export const TIMER_SETTINGS: TimerSetting[] = [
     icon: Bell,
     ...SETTING_LIMITS.focusDuration,
     unit: "min",
-    onChange: () => {},
   },
   {
     title: "Short Break",
@@ -23,7 +22,6 @@ export const TIMER_SETTINGS: TimerSetting[] = [
     icon: Coffee,
     ...SETTING_LIMITS.shortBreakDuration,
     unit: "min",
-    onChange: () => {},
   },
   {
     title: "Long Break",
@@ -31,6 +29,5 @@ export const TIMER_SETTINGS: TimerSetting[] = [
     icon: Sofa,
     ...SETTING_LIMITS.longBreakDuration,
     unit: "min",
-    onChange: () => {},
   },
 ];

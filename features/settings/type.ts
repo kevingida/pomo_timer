@@ -29,5 +29,4 @@ export type TimerSetting = {
   min: number;
   max: number;
   unit: string;
-  onChange: (value: number) => void;
 };

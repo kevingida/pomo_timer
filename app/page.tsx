@@ -5,7 +5,7 @@ import Task from "@/features/task";
 import { useState } from "react";
 import Settings from "@/features/settings";
 import Particles from "@/features/theme/components/Particles";
-import { useParticleControl } from "@/features/theme/hooks/useParticleControl";
+import { useParticleControl } from "@/features/theme/context/ParticleContext";
 
 export default function Home() {
   const [openDropdown, setOpenDropdown] = useState({
@@ -14,7 +14,6 @@ export default function Home() {
   });
 
   const toggleDropdown = (type: string) => {
-    console.log(type, "toggleDropdown");
     setOpenDropdown((prev) => ({
       type,
       isOpen: prev.type === type ? !prev.isOpen : true,
@@ -51,7 +50,7 @@ export default function Home() {
         />
       </div>
       <Timer
-        isDropdownOpen={openDropdown.isOpen && openDropdown.type !== "theme"}
+        isDropdownOpen={openDropdown.isOpen}
       />
     </div>
   );
