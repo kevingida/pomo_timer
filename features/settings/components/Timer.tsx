@@ -6,7 +6,6 @@ import {
   Minus,
   Plus,
   Repeat,
-  Sofa,
 } from "lucide-react";
 import useSettings from "../hooks/useSettings";
 import { TIMER_SETTINGS } from "../constant";

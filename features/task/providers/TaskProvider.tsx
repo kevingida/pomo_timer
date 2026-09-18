@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 import useTaskState from "../hooks/useTasksState";
 
 type TaskContextType = ReturnType<typeof useTaskState>;

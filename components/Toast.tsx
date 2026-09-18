@@ -1,6 +1,6 @@
 import { ToastProps } from "@/types/toast";
 import clsx from "clsx";
-import { AlertCircle, CheckCircle, Info, TriangleAlert, X } from "lucide-react";
+import { AlertCircle, CheckCircle, Info, X } from "lucide-react";
 
 const Toast = ({ toast, onClose }: ToastProps) => {
   const config = {

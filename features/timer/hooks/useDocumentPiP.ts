@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 
 type DocumentPiPWindow = Window & {
   documentPictureInPicture?: {
@@ -6,16 +6,20 @@ type DocumentPiPWindow = Window & {
   };
 };
 
+const subscribeToNothing = () => () => {};
+const getIsSupported = () => "documentPictureInPicture" in window;
+const getIsSupportedOnServer = () => false;
+
 export function useDocumentPiP() {
   // Kept out of React state/props on purpose: React's dev perf tracing enumerates
   // prop objects on every commit, and enumerating a closed Window throws.
   const pipWindowRef = useRef<Window | null>(null);
   const [pipContainer, setPipContainer] = useState<HTMLElement | null>(null);
-  const [isSupported, setIsSupported] = useState(false);
-
-  useEffect(() => {
-    setIsSupported("documentPictureInPicture" in window);
-  }, []);
+  const isSupported = useSyncExternalStore(
+    subscribeToNothing,
+    getIsSupported,
+    getIsSupportedOnServer,
+  );
 
   const copyStylesheets = useCallback(
     (pipDocument: Document, sourceDocument: Document) => {

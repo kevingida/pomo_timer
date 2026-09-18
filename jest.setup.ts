@@ -1,7 +1,7 @@
-require('@testing-library/jest-dom')
+import "@testing-library/jest-dom";
 
 // Mock localStorage
-Object.defineProperty(window, 'localStorage', {
+Object.defineProperty(window, "localStorage", {
   value: {
     getItem: jest.fn(),
     setItem: jest.fn(),
@@ -9,4 +9,4 @@ Object.defineProperty(window, 'localStorage', {
     clear: jest.fn(),
   },
   writable: true,
-})
+});

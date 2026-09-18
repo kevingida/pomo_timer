@@ -2,7 +2,7 @@
 
 import Toast from "@/components/Toast";
 import { ToastData, ToastType } from "@/types/toast";
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 
 type ToastContextType = {
   showToast: (type: ToastType, message: string) => void;

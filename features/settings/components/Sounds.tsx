@@ -5,7 +5,6 @@ import useSettings from "../hooks/useSettings";
 import useSound from "@/features/timer/hooks/useSound";
 import NumberInput from "@/components/NumberInput";
 import Slider from "@/components/Slider";
-import useScreenSize from "@/hooks/useScreenSize";
 const soundOptions = [
   {
     label: "Chime",
@@ -27,7 +26,6 @@ const Sounds = () => {
   const { settings, updateSettings } = useSettings();
   const { handlePlaySound } = useSound();
 
-  const { sm } = useScreenSize();
 
   const [focusEndSound, setFocusEndSound] = useState<SoundOptionValue>(
     settings.focusEndSound,

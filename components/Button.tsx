@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import React from "react";
-import Tooltip from "./Tooltip";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger" | "outline";

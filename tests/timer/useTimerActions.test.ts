@@ -1,6 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
 import useTimerActions from '@/features/timer/hooks/useTimerActions'
-import { Mode } from '@/features/timer/type'
 
 describe('useTimerActions', () => {
   let mockChangeMode: jest.Mock

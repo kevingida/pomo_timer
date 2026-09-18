@@ -1,5 +1,5 @@
 import { useWallpaperControl } from "../hooks/useWallpaperControl";
-import { Image } from "lucide-react";
+import { Image as ImageIcon } from "lucide-react";
 
 const WallpaperControls = () => {
   const { wallpaperEnabled, setWallpaperEnabled, wallpaperOpacity, setWallpaperOpacity } = useWallpaperControl();
@@ -7,7 +7,7 @@ const WallpaperControls = () => {
   return (
     <div className="space-y-4">
       <h3 className="text-sm font-bold text-text-primary flex items-center gap-2">
-        <Image className="w-4 h-4" /> Wallpaper
+        <ImageIcon className="w-4 h-4" /> Wallpaper
       </h3>
 
       <div className="space-y-3">

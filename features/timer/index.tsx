@@ -2,7 +2,7 @@
 
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { formatTime } from "@/utils/formatTime";
-import { useEffect, useRef } from "react";
+import { useEffect, useEffectEvent } from "react";
 import { createPortal } from "react-dom";
 import useDocumentTitle from "./hooks/useDocumentTitle";
 import useTimer from "./hooks/useTimer";
@@ -15,6 +15,7 @@ import useSound from "./hooks/useSound";
 import usePomodoroCycle from "./hooks/usePomodoroCycle";
 import { useDocumentPiP } from "./hooks/useDocumentPiP";
 import { PiPProvider } from "./context/PiPContext";
+import { Mode } from "./type";
 import { useTheme } from "@/features/theme/hooks/useThemes";
 import useTasks from "../task/hooks/useTasks";
 import useSettings from "../settings/hooks/useSettings";
@@ -74,36 +75,26 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
     status,
   });
 
-  const modeRef = useRef(mode);
-
-  const handleSoundPlay = (mode: "focus" | "shortBreak" | "longBreak") => {
+  const handleSoundPlay = (completedMode: Mode) => {
     if (!settings.soundEnabled) return;
-    if (mode === "focus") {
+    if (completedMode === "focus") {
       handlePlaySound(settings.focusEndSound);
     } else {
       handlePlaySound(settings.breakEndSound);
     }
   };
 
-  useEffect(() => {
-    modeRef.current = mode;
-  }, [mode]);
-
-  useEffect(() => {
-    if (!isComplete) return;
-
-    const currentMode = modeRef.current;
-
-    if (currentMode === "focus" && activeTaskId) {
+  const onSessionComplete = useEffectEvent(() => {
+    if (mode === "focus" && activeTaskId) {
       incrementCompletedPomodoros(activeTaskId);
     }
 
     const shouldAutoStart =
-      (currentMode === "focus" && settings.autoStartBreaks) ||
-      (currentMode !== "focus" && settings.autoStartPomodoros);
+      (mode === "focus" && settings.autoStartBreaks) ||
+      (mode !== "focus" && settings.autoStartPomodoros);
 
     nextMode();
-    handleSoundPlay(currentMode);
+    handleSoundPlay(mode);
     handleReset();
 
     if (shouldAutoStart) {
@@ -111,6 +102,10 @@ const Timer = ({ isDropdownOpen }: TimerProps) => {
         start();
       }, 1000);
     }
+  });
+
+  useEffect(() => {
+    if (isComplete) onSessionComplete();
   }, [isComplete]);
 
   const shouldShift = isDropdownOpen && lg;

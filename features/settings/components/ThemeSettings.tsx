@@ -1,6 +1,4 @@
 import ParticleControls from "@/features/theme/components/ParticleControls";
-import WallpaperControls from "@/features/theme/components/WallpaperControls";
-import AccessibilitySettings from "@/features/theme/components/AccessibilitySettings";
 import Themes from "./Themes";
 
 const ThemeSettings = () => {

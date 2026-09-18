@@ -1,5 +1,5 @@
 import { useAccessibilitySettings } from "../hooks/useAccessibilitySettings";
-import { Eye, Volume2 } from "lucide-react";
+import { Eye } from "lucide-react";
 
 const AccessibilitySettings = () => {
   const { highContrast, setHighContrast, reduceMotion, setReduceMotion, textSize, setTextSize } = useAccessibilitySettings();

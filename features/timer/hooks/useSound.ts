@@ -9,7 +9,7 @@ const useSound = (soundEnabled: boolean = true, volume: number = 100) => {
     if (typeof window === "undefined") return null;
     try {
       if (!audioRef.current) {
-        const Ctor = window.AudioContext || (window as any).webkitAudioContext;
+        const Ctor = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
         if (!Ctor) return null;
         audioRef.current = new Ctor();
       }
@@ -60,7 +60,7 @@ const useSound = (soundEnabled: boolean = true, volume: number = 100) => {
         o.stop(t + attack + decay + 0.05);
       });
     },
-    [soundEnabled, getContext, volume],
+    [soundEnabled, getContext],
   );
 
   const playChime = useCallback(
